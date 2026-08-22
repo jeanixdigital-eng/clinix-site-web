@@ -1,0 +1,4 @@
+# Versão de trabalho, compartilhada internamente com a equipe.
+# Não deve ser indexada por buscador enquanto o conteúdo não estiver revisado.
+User-agent: *
+Disallow: /
