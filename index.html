@@ -2521,18 +2521,37 @@ document.addEventListener('DOMContentLoaded', function(){
       var prefix = m[1], target = parseFloat(m[2].replace(',','.')), suffix = m[3];
       var decimals = (m[2].indexOf(',') > -1 || m[2].indexOf('.') > -1) ? 1 : 0;
       var obj = {v:0};
-      gsap.to(obj, {
-        v: target, duration: 1.4, ease: 'power2.out',
-        scrollTrigger: {trigger: el, start: 'top 88%', once: true},
-        onUpdate: function(){
-          var n = decimals ? obj.v.toFixed(decimals).replace('.',',') : Math.round(obj.v).toLocaleString('pt-BR');
-          el.textContent = prefix + n + suffix;
-        },
-        onComplete: function(){
-          var n = decimals ? target.toFixed(decimals).replace('.',',') : Math.round(target).toLocaleString('pt-BR');
-          el.textContent = prefix + n + suffix;
-        }
-      });
+      function contar(){
+        gsap.to(obj, {
+          v: target, duration: 1.6, ease: 'power2.out',
+          onUpdate: function(){
+            var n = decimals ? obj.v.toFixed(decimals).replace('.',',') : Math.round(obj.v).toLocaleString('pt-BR');
+            el.textContent = prefix + n + suffix;
+          },
+          onComplete: function(){
+            var n = decimals ? target.toFixed(decimals).replace('.',',') : Math.round(target).toLocaleString('pt-BR');
+            el.textContent = prefix + n + suffix;
+          }
+        });
+      }
+      // 🔑 Quem dispara e o IntersectionObserver, NAO o ScrollTrigger.
+      // Medido: com scrollTrigger start:'top 88%' os numeros ja estavam no valor
+      // final quando a pessoa chegava neles — o gatilho nasce fora de posicao
+      // para tudo que vem depois do pin da demo, entao a contagem acontecia com
+      // a secao ainda longe da tela. Com o IO a contagem comeca quando o numero
+      // aparece de verdade.
+      // ⚠️ Sem IntersectionObserver o numero NAO e zerado: fica como esta escrito
+      // no HTML. Pior caso e "nao anima", nunca "aparece zerado".
+      if(!window.IntersectionObserver) return;
+      var obsN = new IntersectionObserver(function(ent){
+        ent.forEach(function(e){
+          if(!e.isIntersecting) return;
+          obsN.unobserve(e.target);
+          el.textContent = prefix + (decimals ? '0,0' : '0') + suffix;
+          contar();
+        });
+      }, {threshold:.6});
+      obsN.observe(el);
     });
   })();
 
