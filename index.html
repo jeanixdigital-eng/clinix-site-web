@@ -2543,6 +2543,11 @@ document.addEventListener('DOMContentLoaded', function(){
       // ⚠️ Sem IntersectionObserver o numero NAO e zerado: fica como esta escrito
       // no HTML. Pior caso e "nao anima", nunca "aparece zerado".
       if(!window.IntersectionObserver) return;
+      // rootMargin negativo embaixo: o numero so conta quando sobe para DENTRO
+      // da tela, nao quando esta espiando na borda de baixo. Medido: os numeros
+      // do topo ficam a 709px numa tela de 851 no carregamento — contavam
+      // sozinhos aos 0,8s, com a pagina ainda carregando, e quem rolava depois
+      // ja encontrava o valor final.
       var obsN = new IntersectionObserver(function(ent){
         ent.forEach(function(e){
           if(!e.isIntersecting) return;
@@ -2550,7 +2555,7 @@ document.addEventListener('DOMContentLoaded', function(){
           el.textContent = prefix + (decimals ? '0,0' : '0') + suffix;
           contar();
         });
-      }, {threshold:.6});
+      }, {threshold:.6, rootMargin:'0px 0px -18% 0px'});
       obsN.observe(el);
     });
   })();
