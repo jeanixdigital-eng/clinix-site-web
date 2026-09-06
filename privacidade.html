@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<!-- Política de privacidade da Clinix System · versão 2026-09-06. -->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+
+<title>Política de Privacidade — Clinix System</title>
+<meta name="description" content="Quais dados o site da Clinix System coleta, para quê, por quanto tempo, com quem são compartilhados e como pedir acesso, correção ou exclusão.">
+<link rel="canonical" href="https://jeanixdigital-eng.github.io/clinix-site/privacidade.html">
+<meta property="og:title" content="Política de Privacidade — Clinix System">
+<meta property="og:description" content="O que fazemos com os dados de quem preenche o formulário do site.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jeanixdigital-eng.github.io/clinix-site/privacidade.html">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/logo/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"></noscript>
+
+<style>
+/* Mesma paleta, mesmas fontes e mesmas medidas do index.html — de propósito:
+   quem chega aqui pelo formulário precisa reconhecer que continua no mesmo site.
+   Só o que esta página usa foi copiado; nada de tema novo. */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --night:#050C1A;--deep:#070D1F;--royal:#1A2E8A;--electric:#2A4DB5;--glow:#3D6FE8;--bright:#4A7FFF;--ice:#B8CCF0;
+  --bg-white:#FFFFFF;--bg-light:#F4F6FF;--bg-mid:#EEF1FB;
+  --text-dark:#111827;--text-mid:#374151;--text-muted:#5A6E93;--border:#E5E7EB;
+}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text-dark);background:#fff;overflow-x:hidden}
+
+/* NAV — versão curta: logo à esquerda, uma saída à direita */
+#nav{position:sticky;top:0;z-index:1000;padding:0 5%;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.08)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:920px;margin:0 auto}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:36px;width:36px;display:block;border-radius:8px}
+.nav-logo-text{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1.05rem;color:var(--text-dark);white-space:nowrap}
+.nav-voltar{font-size:.875rem;font-weight:600;color:var(--electric);text-decoration:none}
+.nav-voltar:hover{text-decoration:underline}
+
+/* CABEÇALHO DA PÁGINA */
+.doc-hero{background:var(--night);color:#fff;padding:clamp(56px,7vw,88px) 5% clamp(48px,6vw,72px)}
+.doc-hero-inner{max-width:920px;margin:0 auto}
+.doc-tag{display:inline-block;font-size:.74rem;font-weight:700;color:var(--bright);text-transform:uppercase;letter-spacing:.14em;margin-bottom:.85rem}
+.doc-hero h1{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,3.4vw,2.6rem);font-weight:800;line-height:1.15;letter-spacing:-.015em;margin-bottom:1rem}
+.doc-hero p{color:var(--ice);line-height:1.7;font-size:1.02rem;max-width:640px}
+.doc-versao{margin-top:1.5rem;display:inline-flex;flex-wrap:wrap;gap:.5rem 1.5rem;font-size:.82rem;color:rgba(255,255,255,.7);border-top:1px solid rgba(255,255,255,.14);padding-top:1rem}
+
+/* CORPO */
+.doc{max-width:920px;margin:0 auto;padding:clamp(48px,6vw,72px) 5% clamp(64px,7vw,96px)}
+.doc h2{font-family:'DM Sans',sans-serif;font-size:1.35rem;font-weight:800;color:var(--text-dark);line-height:1.25;margin:2.75rem 0 .9rem;scroll-margin-top:88px}
+.doc h2:first-of-type{margin-top:0}
+.doc h3{font-family:'DM Sans',sans-serif;font-size:1.02rem;font-weight:700;color:var(--text-dark);margin:1.6rem 0 .5rem}
+.doc p{color:var(--text-mid);line-height:1.75;margin-bottom:1rem}
+.doc ul,.doc ol{color:var(--text-mid);line-height:1.75;margin:0 0 1rem 1.25rem}
+.doc li{margin-bottom:.45rem}
+.doc a{color:var(--electric);text-decoration:underline;text-underline-offset:2px}
+.doc strong{color:var(--text-dark);font-weight:600}
+.doc-sumario{background:var(--bg-light);border:1px solid var(--border);border-radius:16px;padding:1.5rem 1.75rem;margin-bottom:2.5rem}
+.doc-sumario h2{font-size:.8rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin:0 0 .75rem}
+.doc-sumario ol{margin:0 0 0 1.1rem;font-size:.92rem}
+.doc-sumario li{margin-bottom:.3rem}
+.doc-nota{background:var(--bg-mid);border-left:3px solid var(--bright);border-radius:0 12px 12px 0;padding:1.1rem 1.35rem;margin:1.5rem 0}
+.doc-nota p:last-child{margin-bottom:0}
+.doc-tabela{width:100%;border-collapse:collapse;margin:1rem 0 1.5rem;font-size:.9rem}
+.doc-tabela th,.doc-tabela td{text-align:left;vertical-align:top;padding:.7rem .8rem;border-bottom:1px solid var(--border);color:var(--text-mid);line-height:1.6}
+.doc-tabela th{font-family:'DM Sans',sans-serif;font-weight:700;color:var(--text-dark);font-size:.83rem;text-transform:uppercase;letter-spacing:.06em;border-bottom-width:1.5px}
+.doc-tabela-wrap{overflow-x:auto}
+
+/* RODAPÉ — o mesmo bloco escuro do index, na versão curta */
+footer{background:var(--night);padding:56px 5% 32px;color:rgba(255,255,255,.6)}
+.footer-inner{max-width:920px;margin:0 auto}
+.footer-topo{display:flex;align-items:center;gap:10px;margin-bottom:.85rem}
+.footer-topo img{border-radius:8px}
+.footer-logo-text{font-family:'DM Sans',sans-serif;font-weight:700;font-size:1rem;color:#fff}
+footer p{font-size:.85rem;line-height:1.7;margin-bottom:.6rem;max-width:560px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:1.75rem;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;font-size:.8rem}
+footer a{color:rgba(255,255,255,.72);text-decoration:none}
+footer a:hover{color:#fff;text-decoration:underline}
+
+@media (max-width:640px){
+  .doc h2{font-size:1.2rem}
+  .doc-sumario{padding:1.25rem}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">
+      <img src="assets/logo/logo-app-72.webp" alt="" width="36" height="36" aria-hidden="true">
+      <span class="nav-logo-text">Clinix System</span>
+    </a>
+    <a href="index.html" class="nav-voltar">← Voltar ao site</a>
+  </div>
+</nav>
+
+<header class="doc-hero">
+  <div class="doc-hero-inner">
+    <span class="doc-tag">Privacidade</span>
+    <h1>Política de Privacidade</h1>
+    <p>Esta página explica, em português direto, quais dados o site da Clinix System coleta, o que fazemos com eles, onde eles ficam, por quanto tempo e como você pede acesso, correção ou exclusão a qualquer momento.</p>
+    <div class="doc-versao">
+      <span><strong style="color:#fff">Versão:</strong> 2026-09-06</span>
+      <span><strong style="color:#fff">Em vigor desde:</strong> 6 de setembro de 2026</span>
+      <span><strong style="color:#fff">Aplica-se a:</strong> este site e ao formulário de contato</span>
+    </div>
+  </div>
+</header>
+
+<main class="doc">
+
+  <nav class="doc-sumario" aria-label="Sumário desta página">
+    <h2>O que tem nesta página</h2>
+    <ol>
+      <li><a href="#quem">Quem é responsável pelos seus dados</a></li>
+      <li><a href="#o-que">O que coletamos, exatamente</a></li>
+      <li><a href="#para-que">Para que usamos</a></li>
+      <li><a href="#base">Com que autorização (base legal)</a></li>
+      <li><a href="#onde">Onde os dados ficam e quem mais tem acesso</a></li>
+      <li><a href="#fora">Transferência para fora do Brasil</a></li>
+      <li><a href="#quanto-tempo">Por quanto tempo guardamos</a></li>
+      <li><a href="#cookies">Cookies, pixels e o que este site carrega</a></li>
+      <li><a href="#direitos">Os seus direitos</a></li>
+      <li><a href="#exercer">Como exercer os seus direitos</a></li>
+      <li><a href="#paciente">Dado de paciente: isto aqui não é sobre ele</a></li>
+      <li><a href="#seguranca">O que fazemos para proteger</a></li>
+      <li><a href="#mudancas">Mudanças nesta política</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="quem">1. Quem é responsável pelos seus dados</h2>
+  <p>O controlador dos dados tratados neste site é:</p>
+
+  <ul>
+    <li><strong>Nome:</strong> Clinix System</li>
+    <li><strong>CNPJ:</strong> 49.828.144/0001-20</li>
+    <li><strong>Endereço:</strong> Almenara, Taiobeiras/MG, CEP 39550-000</li>
+    <li><strong>Nome comercial:</strong> Clinix System</li>
+  </ul>
+  <p>A Clinix System desenvolve e opera uma secretária virtual com inteligência artificial que atende pacientes no WhatsApp para clínicas odontológicas.</p>
+
+  <h2 id="o-que">2. O que coletamos, exatamente</h2>
+
+  <h3>2.1 O que você digita no formulário</h3>
+  <p>O formulário de contato deste site tem quatro campos e um aceite. Nada além disto é pedido a você:</p>
+  <div class="doc-tabela-wrap">
+  <table class="doc-tabela">
+    <thead><tr><th>Dado</th><th>Obrigatório?</th><th>Para quê</th></tr></thead>
+    <tbody>
+      <tr><td>Nome completo</td><td>Sim</td><td>Saber com quem estamos falando e como chamar você</td></tr>
+      <tr><td>WhatsApp</td><td>Sim</td><td>É por onde o contato acontece</td></tr>
+      <tr><td>Nome da clínica</td><td>Não</td><td>Entender o contexto antes da conversa</td></tr>
+      <tr><td>Especialidade principal</td><td>Não</td><td>O mesmo motivo</td></tr>
+      <tr><td>Aceite desta política</td><td>Sim</td><td>Sem ele o formulário não é enviado</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p>⛔ Não pedimos CPF, CRO, endereço, dados de pagamento nem qualquer dado de paciente. Se você escrever esse tipo de informação num campo aberto, ela vai junto — <strong>não escreva</strong>.</p>
+
+  <h3>2.2 O registro do seu aceite</h3>
+  <p>Quando você marca a caixa de consentimento, gravamos junto com o seu cadastro: <strong>a versão desta política</strong> que estava no ar no momento (a versão está no topo desta página) e <strong>a data e a hora do aceite</strong>, no horário de Brasília. Isso existe para que você possa conferir depois exatamente com o que concordou, e quando.</p>
+
+  <h3>2.3 De onde você veio</h3>
+  <p>Junto com o formulário viajam os parâmetros de campanha que estavam no endereço da página quando você chegou — <code>utm_source</code>, <code>utm_medium</code>, <code>utm_campaign</code>, <code>utm_content</code> e <code>fbclid</code> — mais o <strong>endereço da página</strong> em que você preencheu. Servem só para sabermos qual anúncio ou link trouxe você. Se você chegou digitando o endereço do site, esses campos vão vazios.</p>
+
+  <h3>2.4 O que o servidor registra sozinho</h3>
+  <p>O servidor que recebe o formulário registra o <strong>endereço IP</strong> de onde veio o envio e usa esse IP apenas como <strong>contador de tentativas por hora</strong>, para barrar robôs e envios repetidos em massa. Esse contador fica num banco de dados nosso e <strong>não é ligado ao seu cadastro</strong> nem usado para identificar você.</p>
+  <p>Quando o envio é recusado por um dado que não confere (telefone inválido, aceite ausente), guardamos apenas <em>quando</em> e <em>qual foi o motivo</em> — sem nome, sem telefone, sem IP. Envio bloqueado pelo campo-armadilha ou pelo limite por hora não gera registro nenhum.</p>
+
+  <h2 id="para-que">3. Para que usamos</h2>
+  <p>Uma finalidade só: <strong>entrar em contato com você para apresentar a secretária virtual da Clinix System</strong> — tirar dúvidas, entender a sua clínica e, se fizer sentido, te mostrar item a item o que a Clinix System monta.</p>
+  <p>⛔ O que <strong>não</strong> fazemos com os seus dados:</p>
+  <ul>
+    <li>não vendemos, alugamos nem cedemos a sua lista de contato para ninguém;</li>
+    <li>não usamos o seu telefone para montar público de anúncio;</li>
+    <li>não mandamos disparo em massa de propaganda de terceiros;</li>
+    <li>não usamos o que você escreveu como material de divulgação.</li>
+  </ul>
+
+  <h2 id="base">4. Com que autorização (base legal)</h2>
+  <p>A base legal é o <strong>seu consentimento</strong>. É por isso que a caixa de aceite é obrigatória: sem ela, o formulário não envia — o servidor recusa o envio, não só o navegador.</p>
+  <div class="doc-nota">
+    <p>🔑 <strong>Por que não usamos "legítimo interesse".</strong> O contato que vem depois deste formulário é uma <strong>oferta comercial</strong>. Oferta não se sustenta em legítimo interesse: quem decide se quer ser abordado é você, e essa decisão precisa ser um ato seu, registrado. Por isso pedimos o aceite e guardamos a data dele.</p>
+  </div>
+  <p><strong>Você pode retirar o consentimento a qualquer momento</strong>, e é de graça (item 10 desta página). Retirar não apaga o que já aconteceu antes da retirada, mas encerra o contato dali em diante.</p>
+
+  <h2 id="onde">5. Onde os dados ficam e quem mais tem acesso</h2>
+  <p>Fora da própria Clinix System, os seus dados passam por estes fornecedores, cada um fazendo uma coisa específica:</p>
+  <div class="doc-tabela-wrap">
+  <table class="doc-tabela">
+    <thead><tr><th>Fornecedor</th><th>O que ele faz</th><th>O que ele recebe</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>GoHighLevel / LeadConnector</strong><br>(HighLevel Inc., Estados Unidos)</td>
+        <td>É o nosso CRM: é onde o seu cadastro fica guardado e onde o histórico do contato é registrado</td>
+        <td>Nome, WhatsApp, clínica, especialidade, origem da campanha, versão e data do seu aceite</td>
+      </tr>
+      <tr>
+        <td><strong>Servidor próprio</strong><br>(VPS contratado na Hostinger, com datacenter em São Paulo, Brasil)</td>
+        <td>Recebe o envio do formulário e o encaminha ao CRM; é onde fica o contador de tentativas por IP</td>
+        <td>Tudo o que o formulário envia, de passagem, e o endereço IP</td>
+      </tr>
+      <tr>
+        <td><strong>GitHub Pages</strong><br>(GitHub, Inc., Estados Unidos)</td>
+        <td>Hospeda as páginas deste site</td>
+        <td>Os registros de acesso do próprio servidor de hospedagem (endereço IP e páginas abertas)</td>
+      </tr>
+      <tr>
+        <td><strong>WhatsApp</strong><br>(Meta Platforms, Inc., Estados Unidos)</td>
+        <td>É o canal em que a conversa acontece, depois que você pede contato</td>
+        <td>O seu número e o conteúdo da conversa que você tiver conosco</td>
+      </tr>
+      <tr>
+        <td><strong>Provedor de API de WhatsApp</strong></td>
+        <td>Envia ao nosso time o aviso interno de que chegou um pedido de contato</td>
+        <td>Seu nome, clínica e especialidade, com o <strong>telefone parcialmente mascarado</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Google Fonts, jsDelivr e Cloudflare</strong></td>
+        <td>Entregam ao seu navegador as fontes e os scripts de animação da página</td>
+        <td>Seu endereço IP e o tipo do seu navegador, ao carregar esses arquivos</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <p>Fora dessa lista, o acesso é da <strong>própria equipe da Clinix System</strong>, e só de quem precisa para falar com você.</p>
+
+  <h2 id="fora">6. Transferência para fora do Brasil</h2>
+  <p>Diga-se claramente: <strong>parte dos seus dados sai do Brasil</strong>. O CRM (GoHighLevel/LeadConnector), a hospedagem do site (GitHub Pages) e o WhatsApp (Meta) são empresas com sede e servidores nos <strong>Estados Unidos</strong>, e é lá que o seu cadastro efetivamente fica armazenado.</p>
+  <p>O servidor intermediário que recebe o formulário fica no Brasil (São Paulo), mas ele não é o destino final: ele repassa ao CRM.</p>
+  <p>Se você não quiser que o seu dado saia do país, <strong>não preencha o formulário</strong> — fale conosco por outro canal, ou peça a exclusão depois (item 10).</p>
+
+  <h2 id="quanto-tempo">7. Por quanto tempo guardamos</h2>
+  <div class="doc-tabela-wrap">
+  <table class="doc-tabela">
+    <thead><tr><th>O quê</th><th>Prazo</th></tr></thead>
+    <tbody>
+      <tr><td>Cadastro no CRM (nome, WhatsApp, clínica, especialidade, origem)</td><td>Enquanto durar a conversa comercial e por até <strong>24 meses</strong> depois do último contato seu conosco</td></tr>
+      <tr><td>Registro do aceite (versão da política + data e hora)</td><td>Pelo mesmo prazo do cadastro — é a prova de que o contato foi autorizado</td></tr>
+      <tr><td>Conversa de WhatsApp</td><td>Enquanto o cadastro existir, no histórico do CRM e no próprio aparelho</td></tr>
+      <tr><td>Contador de tentativas por IP</td><td>Guardado apenas enquanto for útil ao controle de abuso; não é ligado ao seu cadastro</td></tr>
+      <tr><td>Registro de recusa do formulário (sem dado pessoal)</td><td>Sem prazo definido — não há dado pessoal nele</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p><strong>Se você pedir exclusão antes desses prazos, apagamos antes.</strong> O pedido vale mais que o prazo.</p>
+
+  <h2 id="cookies">8. Cookies, pixels e o que este site carrega</h2>
+  <p>Descrição do que este site faz <strong>hoje</strong>, na versão desta política:</p>
+  <ul>
+    <li><strong>Não usamos cookie de rastreamento.</strong> Não há Google Analytics, não há pixel do Facebook/Meta, não há pixel do TikTok carregando nestas páginas.</li>
+    <li>Usamos o <code>sessionStorage</code> do seu navegador (que morre quando você fecha a aba) apenas para não perder os parâmetros de campanha da URL entre a chegada e o envio do formulário.</li>
+    <li>Ao abrir a página, o seu navegador busca fontes e scripts de animação no Google Fonts, no jsDelivr e na Cloudflare. Esses serviços enxergam o seu endereço IP, como acontece em qualquer requisição na internet.</li>
+  </ul>
+  <div class="doc-nota">
+    <p>Se um dia ligarmos analytics ou pixel de anúncio, eles <strong>só serão carregados depois do seu aceite</strong>, num aviso próprio na tela — e esta política será atualizada antes, com nova versão e nova data no topo.</p>
+  </div>
+
+  <h2 id="direitos">9. Os seus direitos</h2>
+  <p>A lei brasileira de proteção de dados garante a você, a qualquer momento e sem custo, o direito de pedir:</p>
+  <ol>
+    <li><strong>Confirmação</strong> de que tratamos dados seus;</li>
+    <li><strong>Acesso</strong> aos dados que temos sobre você;</li>
+    <li><strong>Correção</strong> de dado incompleto, inexato ou desatualizado;</li>
+    <li><strong>Anonimização, bloqueio ou eliminação</strong> de dado desnecessário, excessivo ou tratado fora da lei;</li>
+    <li><strong>Portabilidade</strong> dos dados a outro fornecedor, mediante requisição expressa;</li>
+    <li><strong>Eliminação</strong> dos dados tratados com base no seu consentimento — que é o caso deste site;</li>
+    <li><strong>Informação sobre com quem compartilhamos</strong> os seus dados (a lista está no item 5, e você pode pedir a versão específica do seu caso);</li>
+    <li><strong>Informação sobre a possibilidade de não consentir</strong> e sobre o que acontece se você negar — aqui é simples: sem consentimento, não conseguimos entrar em contato, e nada mais acontece;</li>
+    <li><strong>Revogação do consentimento</strong>, a qualquer momento.</li>
+  </ol>
+  <p>Você também pode <strong>reclamar à ANPD</strong> (Autoridade Nacional de Proteção de Dados) se achar que não tratamos o seu pedido como deveríamos.</p>
+
+  <h2 id="exercer">10. Como exercer os seus direitos</h2>
+
+  <p>Escreva para o nosso canal de privacidade:</p>
+  <ul>
+    <li><strong>E-mail:</strong> <a href="mailto:contact@clinixsystem.com.br">contact@clinixsystem.com.br</a></li>
+  </ul>
+  <p>Diga o que você quer (acesso, correção, exclusão, revogação) e informe o <strong>WhatsApp que você usou no formulário</strong> — é por ele que localizamos o seu cadastro. Podemos pedir uma confirmação de que o número é seu, para não entregar dado de uma pessoa a outra.</p>
+  <p><strong>Prazo de resposta: até 15 dias</strong> contados do recebimento do pedido.</p>
+  <p>Se você só quer parar de receber contato, basta responder <em>"não tenho interesse"</em> na própria conversa de WhatsApp — isso já vale como revogação, e nós registramos.</p>
+
+  <h2 id="paciente">11. Dado de paciente: isto aqui não é sobre ele</h2>
+  <p>Esta política trata de <strong>quem visita este site</strong> — na prática, donos e responsáveis por clínicas.</p>
+  <p>Quando uma clínica contrata a Clinix System, os dados dos <strong>pacientes</strong> dela seguem regra diferente: quem decide o que fazer com eles é a <strong>clínica</strong>, e a Clinix System atua a serviço dela, com o que estiver escrito no contrato entre as duas. Se você é paciente de uma clínica e quer exercer algum direito, o caminho é falar com a sua clínica.</p>
+
+  <h2 id="seguranca">12. O que fazemos para proteger</h2>
+  <p>Práticas em vigor, descritas para você conferir, não como selo:</p>
+  <ul>
+    <li>o site trafega em <strong>HTTPS</strong>, e o envio do formulário também;</li>
+    <li><strong>nenhuma senha ou chave de acesso do CRM fica dentro da página</strong> — o formulário fala com um servidor nosso, e é o servidor que fala com o CRM;</li>
+    <li>o formulário tem <strong>freio contra robô</strong>: campo-armadilha invisível e limite de envios por hora;</li>
+    <li>o registro de execução do envio bem-sucedido <strong>não guarda o seu telefone</strong>;</li>
+    <li>o acesso ao CRM é nominal, restrito a quem precisa falar com você.</li>
+  </ul>
+  <p>Nenhum sistema é infalível. Se acontecer um incidente que possa trazer risco relevante a você, comunicaremos você e a ANPD.</p>
+
+  <h2 id="mudancas">13. Mudanças nesta política</h2>
+  <p>Quando esta política mudar, a <strong>versão e a data no topo desta página mudam junto</strong>. A versão que estava no ar quando você aceitou fica gravada no seu cadastro — então dá para saber, depois, exatamente qual texto você aceitou.</p>
+  <p>Se a mudança alterar a finalidade do uso dos seus dados, pediremos um <strong>novo consentimento</strong> antes de aplicar.</p>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-topo">
+      <img src="assets/logo/logo-app-72.webp" alt="" width="36" height="36" aria-hidden="true" loading="lazy">
+      <span class="footer-logo-text">Clinix System</span>
+    </div>
+    <p>Clinix System · CNPJ 49.828.144/0001-20 · Almenara, Taiobeiras/MG, CEP 39550-000</p>
+    <p>Canal de privacidade: <a href="mailto:contact@clinixsystem.com.br">contact@clinixsystem.com.br</a></p>
+    <div class="footer-bottom">
+      <span>© 2017–2026 Clinix System</span>
+      <span><a href="index.html">Voltar ao site</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

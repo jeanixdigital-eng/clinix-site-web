@@ -469,6 +469,16 @@ html.no-motion .crm-kanban{display:grid}
 .form-submit.enviado::after{content:'';display:inline-block;width:.55em;height:1em;margin-left:.6em;border:solid #fff;border-width:0 .18em .18em 0;transform:rotate(45deg) translateY(-.15em);vertical-align:middle}
 #lead-form.falhou .form-submit{box-shadow:0 0 0 3px rgba(220,38,38,.45)}
 .form-submit:hover{background:var(--electric)}
+/* Consentimento da LGPD. A caixa e `required`: o proprio navegador barra o envio
+   antes de qualquer JS rodar, entao a trava nao depende do nosso codigo.
+   O link da politica fica FORA do <label> de proposito — dentro dele, clicar em
+   "ler a politica" tambem marcaria a caixa, e aceite por acidente nao e aceite. */
+.form-consent{display:flex;align-items:flex-start;gap:.6rem;margin:1.1rem 0 .25rem}
+.form-consent input[type=checkbox]{flex:0 0 auto;width:18px;height:18px;margin-top:.15rem;accent-color:var(--electric);cursor:pointer}
+.form-consent input[type=checkbox]:focus-visible{outline:2px solid var(--bright);outline-offset:2px}
+.form-consent-txt{font-size:.8rem;line-height:1.55;color:var(--text-muted)}
+.form-consent label{display:inline;font-size:.8rem;font-weight:400;color:var(--text-muted);margin:0;cursor:pointer}
+.form-consent a{color:var(--electric);font-weight:600;text-decoration:underline;text-underline-offset:2px}
 /* O estado "enviado" foi REMOVIDO: medido 0 requisicoes nao-GET no envio — o
    formulario tem action="#" e preventDefault(), nao entrega nada a lugar nenhum.
    O check e a opacidade afirmavam ao visitante um envio que nao aconteceu.
@@ -1054,7 +1064,9 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
       <div class="form-card">
         <h3>Comece agora</h3>
         <p>Preencha seus dados e um especialista entrará em contato para uma demonstração gratuita.</p>
-        <form id="lead-form" action="#" method="POST">
+        <!-- data-politica-versao: a versao da politica mora em UM lugar so, aqui. O JS
+             le daqui e manda junto com o aceite; trocar a politica = trocar esta data. -->
+        <form id="lead-form" action="#" method="POST" data-politica-versao="2026-09-06">
           <input type="hidden" name="utm_source" id="h_utm_source">
           <input type="hidden" name="utm_medium" id="h_utm_medium">
           <input type="hidden" name="utm_campaign" id="h_utm_campaign">
@@ -1084,6 +1096,13 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
               <option>Endodontia</option>
               <option>Outro</option>
             </select>
+          </div>
+          <div class="form-consent">
+            <input type="checkbox" id="f-consent" name="consentimento" value="1" required>
+            <span class="form-consent-txt">
+              <label for="f-consent">Autorizo a Clinix System a me chamar no WhatsApp para falar sobre a secretária virtual. Meus dados ficam no CRM da empresa e posso pedir a exclusão quando quiser.</label>
+              <a href="privacidade.html" target="_blank" rel="noopener">Ler a Política de Privacidade</a>
+            </span>
           </div>
           <button type="submit" class="form-submit">Falar com especialista →</button>
         </form>
@@ -1852,7 +1871,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
       <div class="dif-card reveal">
         <div class="dif-card-icon"><svg width="26" height="26" fill="none" stroke="#4A7FFF" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
         <div class="dif-card-title">Segurança e LGPD</div>
-        <div class="dif-card-text">Dados criptografados, backup automático diário e total conformidade com a LGPD.</div>
+        <div class="dif-card-text">Dados criptografados, backup automático diário e política de privacidade publicada, com o seu consentimento registrado.</div>
       </div>
       <div class="dif-card reveal">
         <div class="dif-card-icon"><svg width="26" height="26" fill="none" stroke="#4A7FFF" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></div>
@@ -1979,7 +1998,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
       <div class="footer-col">
         <h3>Transparência</h3>
         <ul>
-          <li><a href="#">Política de Privacidade</a></li>
+          <li><a href="privacidade.html">Política de Privacidade</a></li>
           <li><a href="#">Política de Segurança</a></li>
           <li><a href="#">Termos de Uso</a></li>
           <li><a href="#">LGPD</a></li>
@@ -2117,6 +2136,14 @@ document.querySelectorAll('.reveal').forEach(function(el){revealObs.observe(el);
     // preflight OPTIONS, entao nao dependemos de o n8n responder OPTIONS certo.
     var dados=new URLSearchParams(new FormData(form));
     dados.set('pagina', location.href);
+    // Carimbo do aceite. O FormData so traz `consentimento` quando a caixa esta
+    // MARCADA — entao carimbo sem aceite e impossivel, e registro falso tambem.
+    // -03:00 fixo: o Brasil nao tem mais horario de verao desde 2019 e o relogio do
+    // visitante pode estar em qualquer fuso; o CRM e o funil leem Sao Paulo.
+    if(dados.get('consentimento')){
+      dados.set('consent_versao', form.dataset.politicaVersao||'');
+      dados.set('consent_datahora', new Date(Date.now()-108e5).toISOString().slice(0,19)+'-03:00');
+    }
     var btn=form.querySelector('.form-submit');
     jaEnviou=true;
     form.classList.remove('falhou');
