@@ -2543,19 +2543,43 @@ document.addEventListener('DOMContentLoaded', function(){
       // ⚠️ Sem IntersectionObserver o numero NAO e zerado: fica como esta escrito
       // no HTML. Pior caso e "nao anima", nunca "aparece zerado".
       if(!window.IntersectionObserver) return;
-      // rootMargin negativo embaixo: o numero so conta quando sobe para DENTRO
-      // da tela, nao quando esta espiando na borda de baixo. Medido: os numeros
-      // do topo ficam a 709px numa tela de 851 no carregamento — contavam
-      // sozinhos aos 0,8s, com a pagina ainda carregando, e quem rolava depois
-      // ja encontrava o valor final.
+      // 🔑 O numero e zerado JA, no setup — nunca depois.
+      // Antes ele era zerado no instante de comecar a contagem, e o resultado
+      // era um PULO PARA TRAS na frente da pessoa: parado mostrava "+100 mil",
+      // ao rolar caia para "+0 mil" e so entao contava. Zerando de saida, o
+      // valor cheio nunca aparece antes da contagem.
+      // ⚠️ Isso so acontece porque, neste ponto, GSAP e IntersectionObserver
+      // existem os dois — sem eles a funcao retorna antes e o numero fica como
+      // esta escrito no HTML. Pior caso segue sendo "nao anima", nunca "zerado".
+      if(!window.IntersectionObserver) return;
+      el.textContent = prefix + (decimals ? '0,0' : '0') + suffix;
+
+      var disparado = false;
+      function dispara(){
+        if(disparado) return; disparado = true;
+        // Se a pagina ainda esta carregando, espera ela assentar: os numeros do
+        // topo ficam visiveis na carga e, sem isso, contavam aos 0,8s no meio do
+        // carregamento — a pessoa rolava depois e so encontrava o valor final.
+        if(document.readyState === 'complete'){ contar(); return; }
+        var jaFoi = false;
+        function vai(){ if(jaFoi) return; jaFoi = true; setTimeout(contar, 400); }
+        window.addEventListener('load', vai, {once:true});
+        setTimeout(vai, 3000);   // rede: se o load nunca vier, conta assim mesmo
+      }
+
+      // Dois limiares de proposito:
+      //  .35 → conta quando o numero esta de fato na tela;
+      //  0   → REDE: se ele estiver aparecendo de qualquer jeito (mesmo so a
+      //        beirada) por mais de 2,5s sem contar, conta assim mesmo. Assim
+      //        nenhum numero pode ficar parado em zero na frente de ninguem.
+      var rede = null;
       var obsN = new IntersectionObserver(function(ent){
         ent.forEach(function(e){
-          if(!e.isIntersecting) return;
-          obsN.unobserve(e.target);
-          el.textContent = prefix + (decimals ? '0,0' : '0') + suffix;
-          contar();
+          if(!e.isIntersecting){ clearTimeout(rede); rede = null; return; }
+          if(e.intersectionRatio >= .35){ obsN.unobserve(e.target); clearTimeout(rede); dispara(); return; }
+          if(!rede) rede = setTimeout(function(){ obsN.unobserve(el); dispara(); }, 2500);
         });
-      }, {threshold:.6, rootMargin:'0px 0px -18% 0px'});
+      }, {threshold:[0,.35], rootMargin:'0px 0px -8% 0px'});
       obsN.observe(el);
     });
   })();
