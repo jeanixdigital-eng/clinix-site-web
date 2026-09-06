@@ -464,6 +464,10 @@ html.no-motion .crm-kanban{display:grid}
 .form-group input,.form-group select{width:100%;padding:.75rem 1rem;border:1.5px solid var(--border);border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;color:var(--text-dark);outline:none;transition:border-color .2s;background:#fff}
 .form-group input:focus,.form-group select:focus{border-color:var(--bright)}
 .form-submit{width:100%;padding:.9rem;background:var(--electric);border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:#fff;cursor:pointer;transition:background .2s;margin-top:.5rem}
+.form-submit.enviando{opacity:.7;pointer-events:none}
+.form-submit.enviado{background:#1f9d55;pointer-events:none}
+.form-submit.enviado::after{content:'';display:inline-block;width:.55em;height:1em;margin-left:.6em;border:solid #fff;border-width:0 .18em .18em 0;transform:rotate(45deg) translateY(-.15em);vertical-align:middle}
+#lead-form.falhou .form-submit{box-shadow:0 0 0 3px rgba(220,38,38,.45)}
 .form-submit:hover{background:var(--electric)}
 /* O estado "enviado" foi REMOVIDO: medido 0 requisicoes nao-GET no envio — o
    formulario tem action="#" e preventDefault(), nao entrega nada a lugar nenhum.
@@ -1056,6 +1060,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
           <input type="hidden" name="utm_campaign" id="h_utm_campaign">
           <input type="hidden" name="utm_content" id="h_utm_content">
           <input type="hidden" name="fbclid" id="h_fbclid">
+          <input type="text" name="site_url" id="h_site_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;padding:0;border:0;opacity:0;pointer-events:none">
           <div class="form-group">
             <label for="f-nome">Nome completo</label>
             <input type="text" id="f-nome" name="nome" placeholder="Dr. João Silva" required autocomplete="name">
@@ -2102,12 +2107,45 @@ document.querySelectorAll('.reveal').forEach(function(el){revealObs.observe(el);
     // (o foco do teclado caia no <body>) e nada de aria-busy permanente (o leitor
     // de tela anunciava "em atualizacao" para sempre). O envio nao acontece.
     if(jaEnviou) return;
-    jaEnviou=true;
     ['utm_source','utm_medium','utm_campaign','utm_content','fbclid'].forEach(function(k){
       var el=document.getElementById('h_'+k);
       if(el)el.value=sessionStorage.getItem(k)||'';
     });
-    window.dataLayer.push({event:'generate_lead',form_id:'lead-form'});
+    // Envio REAL: o formulario vai para o n8n da Clinix, que cria o contato no GHL.
+    // Nenhuma chave aqui — a credencial do GHL vive dentro do n8n, nunca no HTML.
+    // application/x-www-form-urlencoded e "requisicao simples": o navegador NAO faz
+    // preflight OPTIONS, entao nao dependemos de o n8n responder OPTIONS certo.
+    var dados=new URLSearchParams(new FormData(form));
+    dados.set('pagina', location.href);
+    var btn=form.querySelector('.form-submit');
+    jaEnviou=true;
+    form.classList.remove('falhou');
+    if(btn) btn.classList.add('enviando');
+    fetch('https://n8n-webhook.clinixsystem.com.br/webhook/site/lead',{
+      method:'POST', mode:'cors', credentials:'omit',
+      headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+      body:dados.toString()
+    }).then(function(r){ return r.json().catch(function(){ return {ok:r.ok}; }); })
+    .then(function(j){
+      if(btn) btn.classList.remove('enviando');
+      if(j && j.ok){
+        // conversao contada UMA vez, e so quando o CRM confirmou
+        window.dataLayer.push({event:'generate_lead',form_id:'lead-form'});
+        form.classList.add('enviado');
+        if(btn){ btn.classList.add('enviado'); btn.setAttribute('aria-pressed','true'); }
+        form.reset();
+        ['utm_source','utm_medium','utm_campaign','utm_content','fbclid'].forEach(function(k){
+          var el=document.getElementById('h_'+k); if(el)el.value=sessionStorage.getItem(k)||'';
+        });
+      } else {
+        jaEnviou=false;                 // deixa tentar de novo
+        form.classList.add('falhou');
+      }
+    }).catch(function(){
+      if(btn) btn.classList.remove('enviando');
+      jaEnviou=false;
+      form.classList.add('falhou');
+    });
   });
 })();
 
