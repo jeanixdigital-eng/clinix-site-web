@@ -2536,11 +2536,24 @@ document.addEventListener('DOMContentLoaded', function(){
     var tween = gsap.to(track, {xPercent:-50, repeat:-1, ease:'none', duration:28});
     // a faixa continuava animando com a secao muito acima da tela, gastando 60fps
     // para compor 3.152px e 14 imagens que ninguem estava vendo
+    // 🔑 Quem diz se a faixa esta na tela e o IntersectionObserver, NAO o
+    // ScrollTrigger. Motivo medido: o gatilho do ScrollTrigger para #logos
+    // nascia 2723px fora de posicao — exatamente o espaco que o pin da demo
+    // acrescenta a pagina — e nem ScrollTrigger.refresh() corrigia. Ao rolar,
+    // ele "terminava" antes de a faixa aparecer, disparava onToggle(false),
+    // pausava o tween, e como o intervalo ja tinha passado NUNCA religava:
+    // a faixa ficava congelada na tela. O IntersectionObserver le a geometria
+    // de verdade e nao depende de conta de rolagem.
     var naTela = true;
-    ScrollTrigger.create({
-      trigger:'#logos', start:'top bottom', end:'bottom top',
-      onToggle:function(st){ naTela = st.isActive; if(st.isActive) tween.resume(); else tween.pause(); }
-    });
+    var alvoFaixa = document.getElementById('logos') || track.parentElement;
+    if(window.IntersectionObserver){
+      new IntersectionObserver(function(entradas){
+        var visivel = entradas[0].isIntersecting;
+        naTela = visivel;
+        if(visivel) tween.resume(); else tween.pause();
+      }, {rootMargin:'200px 0px'}).observe(alvoFaixa);
+    }
+    // sem IntersectionObserver: nunca pausa. Gastar quadro e melhor que travar.
     // 🔑 Pausar no hover so vale para MOUSE. No celular o toque sintetiza
     // mouseenter e o mouseleave NUNCA chega — a faixa travava no primeiro
     // toque e nao voltava mais (medido: tween.paused() = true para sempre).
