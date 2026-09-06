@@ -502,7 +502,7 @@ html.no-motion .crm-kanban{display:grid}
 .logos-overflow::before{left:0;background:linear-gradient(to right,var(--bg-light),transparent)}
 .logos-overflow::after{right:0;background:linear-gradient(to left,var(--bg-light),transparent)}
 .logos-track{display:flex;align-items:center;width:max-content;animation:logos-scroll 28s linear infinite}
-.logos-track:hover{animation-play-state:paused}
+@media(hover:hover) and (pointer:fine){.logos-track:hover{animation-play-state:paused}}
 @keyframes logos-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .logo-item{flex-shrink:0;padding:0 2.75rem;display:flex;align-items:center;justify-content:center}
 .logo-item img{height:44px;width:auto;max-width:160px;opacity:.85;transition:opacity .3s,transform .3s;object-fit:contain}
@@ -2525,8 +2525,16 @@ document.addEventListener('DOMContentLoaded', function(){
       trigger:'#logos', start:'top bottom', end:'bottom top',
       onToggle:function(st){ naTela = st.isActive; if(st.isActive) tween.resume(); else tween.pause(); }
     });
-    track.parentElement.addEventListener('mouseenter', function(){ tween.pause(); });
-    track.parentElement.addEventListener('mouseleave', function(){ if(naTela) tween.resume(); });
+    // 🔑 Pausar no hover so vale para MOUSE. No celular o toque sintetiza
+    // mouseenter e o mouseleave NUNCA chega — a faixa travava no primeiro
+    // toque e nao voltava mais (medido: tween.paused() = true para sempre).
+    // pointerType separa os dois sem quebrar aparelho hibrido (touch + mouse).
+    track.parentElement.addEventListener('pointerenter', function(e){
+      if(e.pointerType === 'mouse') tween.pause();
+    });
+    track.parentElement.addEventListener('pointerleave', function(e){
+      if(e.pointerType === 'mouse' && naTela) tween.resume();
+    });
     var ts = 1, target = 1;
     lenis.on('scroll', function(e){
       target = 1 + Math.min(Math.abs(e.velocity || 0) / 6, 1.6);
