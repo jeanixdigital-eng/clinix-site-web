@@ -258,11 +258,22 @@ html.no-motion .demo-stage{grid-template-columns:minmax(280px,340px) minmax(340p
 }
 /* === DEMO NO TOQUE: palco que cabe numa tela, para poder ser FIXADO (pin+scrub) === */
 @media(max-width:1023px){
-  /* a seção nunca é menor que a tela GRANDE (barra do navegador recolhida):
-     assim o pin nunca deixa faixa vazia embaixo quando a barra some */
-  #demo{min-height:100vh;min-height:100lvh}
-  /* o conteúdo é dimensionado para a tela PEQUENA (barra à mostra) */
-  .demo-pin{min-height:100vh;min-height:100svh;justify-content:center;padding:76px 5% 18px}
+  /* 🔑 A seção E o palco usam a MESMA unidade, e tem de ser svh (tela PEQUENA,
+     barra do navegador à mostra). svh nao muda quando a barra recolhe.
+     Antes a seção usava 100lvh e o palco 100svh: quando a barra sumia, os dois
+     discordavam e o conteúdo centralizado se re-centralizava — MEDIDO, 24px de
+     salto em 360x640 e 390x844, 44px em 393x851, a cada vez que a barra some ou
+     volta. No celular ela some e volta o tempo todo, e isso é o tremor.
+     Com svh nos dois, a barra recolhendo só deixa um vão escuro embaixo. */
+  #demo{min-height:100vh;min-height:100svh}
+  /* 🔑 justify-content:center era a raiz do tremor. Conteudo centralizado se
+     RE-CENTRALIZA a cada mudanca de altura — e no celular a altura muda o tempo
+     todo: a barra do navegador recolhe e volta enquanto o dedo arrasta, e as
+     mensagens do chat vao entrando. Cada mudanca movia o palco inteiro por
+     metade da diferenca. MEDIDO: 24px de salto em 360x640 e 390x844, 44px em
+     393x851, so trocando a altura da tela em 48px (a barra do Chrome Android).
+     Ancorado no topo, nada disso move nada. */
+  .demo-pin{min-height:100vh;min-height:100svh;justify-content:flex-start;padding:76px 5% 18px}
   .demo-tag{display:none}
   .demo-title{font-size:1.15rem;line-height:1.22;margin-bottom:.5rem}
   .demo-clock{font-size:.78rem;padding:.28rem .8rem}
@@ -2420,7 +2431,12 @@ document.addEventListener('DOMContentLoaded', function(){
           scrollTrigger: fixar
             ? { trigger:'#demo', start:'top top',
                 end:function(){ return '+=' + Math.round(telaCurta() * 2.2); },
-                pin:true, pinType:'transform', scrub:0.6, anticipatePin:1,
+                // pinType 'fixed' no TOQUE, de proposito: com 'transform' o
+                // elemento fixado guarda um deslocamento calculado na hora do
+                // pin, e quando a barra do navegador recolhe (altura muda) esse
+                // numero fica velho — MEDIDO: 20px de salto em 393x851.
+                // 'fixed' cola no topo da tela, entao mudanca de altura nao move.
+                pin:true, pinType:'fixed', scrub:0.6, anticipatePin:1,
                 invalidateOnRefresh:true, onRefreshInit:ajustarPalco }
             // não coube na tela (celular deitado, tela minúscula, fonte gigante):
             // sem pin, mas AINDA no dedo — a rolagem continua sendo o relógio.
