@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <meta name="googlebot" content="noindex, nofollow">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clinix System — Software Odontológico com Secretária Virtual IA</title>
 <meta name="description" content="Software odontológico completo com secretária virtual de IA: responde no WhatsApp em segundos, agenda pacientes e atualiza seu CRM sozinha, 24h por dia.">
 <!-- Trocar para o domínio próprio (ex.: https://clinixsystem.com.br/) quando estiver configurado -->
@@ -89,7 +89,7 @@
 #hero,.demo-section,.func-preview-body{--text-muted:#93A7CD}
 .func-preview-body{--bright:#7DA2FF}   /* azul claro legível sobre painéis escuros */
 .ia-screen-body{--bright:#2A4DB5}      /* azul escuro legível sobre telas claras */
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
 body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text-dark);background:#fff;overflow-x:hidden}
 
 /* NAV */
@@ -111,7 +111,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text-dark);backgroun
 .btn-ghost:hover{background:rgba(255,255,255,.1)}
 .btn-nav-cta{padding:.5rem 1.2rem;background:var(--electric);border-radius:8px;font-size:.875rem;font-weight:600;color:#fff;text-decoration:none;transition:background .2s}
 .btn-nav-cta:hover{background:var(--electric)}
-.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.nav-hamburger{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;padding:10px;margin-right:-10px;min-width:44px;min-height:44px;background:none;border:none}
 .nav-hamburger span{display:block;width:24px;height:2px;background:#fff;transition:background .3s}
 #nav.scrolled .nav-hamburger span{background:var(--text-dark)}
 
@@ -241,10 +241,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;color:var(--text-dark);backgroun
 .wa-typing{opacity:0}
 .crm-toast{opacity:0;transform:translateX(14px)}
 #crm-card-mariana{opacity:0;transform:scale(.7)}
-.demo-final{opacity:0;transform:translateY(16px)}
+.demo-final{opacity:0;visibility:hidden;transform:translateY(16px)}
 
 /* Fallback sem GSAP / reduced-motion: tudo visível, estático */
-html.no-motion .demo-clock,html.no-motion .wa-msg,html.no-motion .crm-toast,html.no-motion #crm-card-mariana,html.no-motion .demo-final{opacity:1;transform:none}
+html.no-motion .demo-clock,html.no-motion .wa-msg,html.no-motion .crm-toast,html.no-motion #crm-card-mariana,html.no-motion .demo-final{opacity:1;visibility:visible;transform:none}
 html.no-motion .wa-typing,html.no-motion .demo-beam,html.no-motion .crm-slot,html.no-motion .demo-replay{display:none}
 html.no-motion .demo-pin{min-height:auto}
 html.no-motion .demo-stage{grid-template-columns:minmax(280px,340px) minmax(340px,460px);gap:1.5rem}
@@ -255,6 +255,159 @@ html.no-motion .demo-stage{grid-template-columns:minmax(280px,340px) minmax(340p
   .demo-stage{grid-template-columns:minmax(0,380px);justify-content:center;gap:1.2rem}
   .demo-beam{display:none}
   .demo-replay{display:inline-block}
+}
+/* === DEMO NO TOQUE: palco que cabe numa tela, para poder ser FIXADO (pin+scrub) === */
+@media(max-width:1023px){
+  /* a seção nunca é menor que a tela GRANDE (barra do navegador recolhida):
+     assim o pin nunca deixa faixa vazia embaixo quando a barra some */
+  #demo{min-height:100vh;min-height:100lvh}
+  /* o conteúdo é dimensionado para a tela PEQUENA (barra à mostra) */
+  .demo-pin{min-height:100vh;min-height:100svh;justify-content:center;padding:76px 5% 18px}
+  .demo-tag{display:none}
+  .demo-title{font-size:1.15rem;line-height:1.22;margin-bottom:.5rem}
+  .demo-clock{font-size:.78rem;padding:.28rem .8rem}
+  .demo-head{margin-bottom:.7rem}
+  .demo-stage{gap:.7rem}
+  .demo-phone{border-radius:18px}
+  .wa-header{padding:.5rem .75rem}
+  .wa-avatar{width:30px;height:30px}
+  /* altura fixa: a conversa ROLA dentro do celular (o JS mede quanto cabe).
+     overflow:hidden = a lista não é rolável pelo dedo, então o toque
+     continua rolando a PÁGINA (é o dedo que dirige a demo) */
+  .wa-list{position:relative;flex:none;height:180px;overflow:hidden;gap:.32rem;padding:.6rem .65rem}
+  .wa-msg{font-size:.75rem;padding:.42rem .58rem .3rem}
+  .wa-time{font-size:.75rem}
+  .demo-crm{padding:.7rem;gap:.55rem;border-radius:14px}
+  .crm-toasts{gap:.4rem;min-height:0}
+  .crm-toast{font-size:.75rem;padding:.45rem .6rem}
+  .crm-kanban{gap:.5rem}
+  .crm-col{padding:.5rem;gap:.4rem}
+  .crm-slot{height:44px}
+  .demo-final{margin-top:.9rem}
+  .demo-badge{font-size:.95rem;margin-bottom:.7rem}
+  .demo-final-actions{gap:.6rem}
+  .demo-replay{display:none}
+  /* tela curta: o kanban ENCOLHE — nao some. Ele e o desfecho visual da demo
+     (o card da Mariana indo para "Agendados"); escondido, o iPhone SE via a
+     historia sem o final. Some so o cartao-fantasma de cada coluna. */
+  #demo.demo-curta .crm-kanban{gap:.4rem}
+  #demo.demo-curta .crm-col{padding:.4rem;gap:.3rem}
+  #demo.demo-curta .crm-col-title{font-size:.66rem;letter-spacing:.08em}
+  #demo.demo-curta .crm-ghost{display:none}
+  #demo.demo-curta .crm-card{padding:.35rem .5rem;border-radius:7px}
+  #demo.demo-curta .crm-card-name{font-size:.74rem}
+  #demo.demo-curta .crm-card-info{font-size:.66rem;margin-top:1px}
+  #demo.demo-curta .crm-slot{height:32px}
+  #demo.demo-curta .demo-title{font-size:1rem;margin-bottom:.4rem}
+  #demo.demo-curta .demo-clock{font-size:.75rem;padding:.22rem .7rem}
+  #demo.demo-curta .demo-head{margin-bottom:.5rem}
+  #demo.demo-curta .demo-badge{font-size:.84rem;margin-bottom:.5rem}
+  #demo.demo-curta .demo-final{margin-top:.65rem}
+  #demo.demo-curta .demo-pin{padding:72px 5% 10px}
+  #demo.demo-curta .crm-toast{font-size:.72rem;padding:.38rem .55rem}
+  #demo.demo-curta .demo-crm{padding:.6rem;gap:.45rem}
+}
+/* tela de ate 600px de altura (iPhone SE e afins): faltavam 11px para o palco
+   caber COM a folga do translateY(16px) do .demo-final, e a decisao de fixar
+   virava corrida com o carregamento da fonte. */
+@media(max-width:1023px) and (max-height:600px){
+  #demo.demo-curta .demo-pin{padding:64px 5% 8px}
+  #demo.demo-curta .demo-title{font-size:.95rem;margin-bottom:.3rem}
+  #demo.demo-curta .demo-head{margin-bottom:.4rem}
+  #demo.demo-curta .demo-badge{font-size:.8rem;margin-bottom:.4rem}
+  #demo.demo-curta .demo-final{margin-top:.5rem}
+}
+/* celular deitado / tela baixinha: dois palcos lado a lado em vez de empilhados */
+@media(max-width:1023px) and (orientation:landscape) and (max-height:599px){
+  .demo-stage{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:.8rem;max-width:760px;margin:0 auto}
+  .demo-pin{padding:64px 4% 10px}
+  /* deitado o kanban compacto ainda custa 72px e tira o palco da faixa do pin
+     (medido: 436px de palco para 376px de teto). Aqui vale mais fixar a tela:
+     sem pin o visitante que chega por link direto cai no meio da animacao. */
+  #demo.demo-curta .crm-kanban{display:none}
+}
+/* TERCEIRO DEGRAU do palco compacto. Fica DEPOIS dos blocos de max-height:600px
+   e de deitado de proposito: '#demo.demo-curta .demo-pin' tem a MESMA
+   especificidade de '#demo.demo-curtissima .demo-pin', entao quem vem por
+   ultimo vence. Antes desta ordem o padding-bottom de 6px era engolido pelo
+   de 8px do bloco de 600px e o degrau perdia 8px justo nas telas mais baixas. */
+@media(max-width:1023px){
+  /* O QUE ESTE DEGRAU FAZ — telas de 634 a 660px de altura (360x640 e afins: o viewport
+     Android mais comum do Brasil). Com so o .demo-curta o palco media 647px numa
+     tela de 640: nao cabia, a demo desistia do pin e o visitante chegava na secao
+     com a historia JA TERMINADA (progresso 0,989 medido, 6 de 6 mensagens acesas).
+     Aqui o palco encolhe mais um degrau — so espacamento, padding e corpo de
+     texto secundario. NADA sai da tela: o kanban continua visivel (o card da
+     Mariana precisa chegar em "Agendados"), os 3 avisos acendem e o CTA aparece
+     inteiro com os 44px de alvo de toque. Quem liga esta classe e o JS
+     (ajustarPalco), depois de MEDIR — nao a media query, que erra o svh. */
+  #demo.demo-curtissima .demo-pin{padding-bottom:6px}
+  #demo.demo-curtissima .demo-title{font-size:.94rem;margin-bottom:.2rem}
+  #demo.demo-curtissima .demo-head{margin-bottom:.3rem}
+  #demo.demo-curtissima .demo-clock{font-size:.72rem;padding:.16rem .6rem}
+  #demo.demo-curtissima .demo-stage{gap:.45rem}
+  #demo.demo-curtissima .wa-header{padding:.4rem .7rem}
+  #demo.demo-curtissima .wa-avatar{width:28px;height:28px}
+  #demo.demo-curtissima .demo-crm{padding:.45rem;gap:.35rem}
+  #demo.demo-curtissima .crm-header strong{font-size:.86rem}
+  #demo.demo-curtissima .crm-toasts{gap:.3rem}
+  #demo.demo-curtissima .crm-toast{padding:.28rem .5rem}
+  #demo.demo-curtissima .crm-kanban{gap:.35rem}
+  #demo.demo-curtissima .crm-col{padding:.3rem;gap:.25rem}
+  #demo.demo-curtissima .crm-card{padding:.28rem .45rem}
+  #demo.demo-curtissima .demo-final{margin-top:.35rem}
+  #demo.demo-curtissima .demo-badge{font-size:.8rem;margin-bottom:.3rem}
+}
+/* O .wa-float e fixo no canto inferior direito (56px em right:28px), entao ele
+   ocupa os ultimos ~84px da largura. Texto centralizado cuja linha passe desse
+   ponto fica embaixo do botao. Estreitar o selo forca a quebra ANTES da coluna
+   do botao, sem tirar palavra nenhuma e sem mexer no botao. Medido: sem isto,
+   7 a 8 caracteres do fecho ficavam cobertos em 360x640, 360x660 e 375x640. */
+@media(pointer:coarse) and (max-width:1023px){
+  #demo.demo-curta .demo-badge,
+  #demo.demo-curtissima .demo-badge{max-width:calc(100% - 168px);margin-left:auto;margin-right:auto}
+}
+@supports not (height:100svh){
+  @media(max-width:1023px){ #demo{min-height:0} .demo-pin{min-height:0} }
+}
+/* sem GSAP ou com movimento reduzido: nada de recorte, nada de pin */
+html.no-motion #demo{min-height:0}
+html.no-motion .wa-list{height:auto;overflow:visible}
+html.no-motion .crm-kanban{display:grid}
+/* Tablet deitado e desktop baixo: com a secao fixada, o palco media ate 794px numa
+   tela de 768 e o CTA ficava cortado ou fora da tela durante todo o pin. Escala por
+   vh. O teto era 880px e deixava 1440x900 (o notebook mais comum) de fora: medido
+   -42px de folga abaixo do CTA em 900, -22 em 920, -2 em 940 e +13 so a partir de
+   960. Por isso o teto agora e 959px. */
+@media(min-width:1024px) and (max-height:959px){
+  .demo-title{font-size:clamp(1.15rem,2.6vh,1.6rem);margin-bottom:.45rem}
+  .demo-pin{padding-top:clamp(56px,8vh,84px);padding-bottom:clamp(6px,1.5vh,24px)}
+  .demo-head{margin-bottom:clamp(.5rem,1.2vh,1.25rem)}
+  .demo-clock{font-size:.78rem;padding:.3rem .85rem}
+  .wa-msg{font-size:clamp(.64rem,1.35vh,.78rem);line-height:1.34;padding:.4rem .58rem .28rem}
+  .wa-list{gap:clamp(.2rem,.55vh,.45rem);padding:clamp(.45rem,1vh,.8rem) .7rem}
+  .demo-final{margin-top:clamp(.35rem,1.1vh,1.4rem)}
+  .demo-badge{font-size:clamp(.8rem,1.8vh,1.1rem);margin-bottom:clamp(.3rem,1vh,1.1rem)}
+  .crm-toasts{min-height:0}
+}
+/* O selo "Demonstracao" tem TETO PROPRIO, e continua o de 880px. Ele viajava junto
+   com o bloco acima e, quando o teto subiu para 959px, sumiu em 1440x900 — a
+   resolucao de notebook mais comum. O que precisava do teto novo era o espacamento
+   do CTA, nao o selo: sao regras separadas desde entao. */
+@media(min-width:1024px) and (max-height:880px){
+  .demo-tag{display:none}
+}
+/* tela deitada muito baixa (netbook, tablet antigo): mesmo com o bloco acima
+   faltavam 23px para o CTA caber dentro do pin. */
+@media(min-width:1024px) and (max-height:660px){
+  .demo-pin{padding-top:44px;padding-bottom:6px}
+  .demo-title{font-size:1.05rem;margin-bottom:.3rem}
+  .demo-head{margin-bottom:.4rem}
+  .demo-crm{padding:.85rem;gap:.6rem}
+  .crm-col{padding:.5rem;gap:.35rem}
+  .crm-slot{height:38px}
+  .demo-final{margin-top:.35rem}
+  .demo-badge{margin-bottom:.35rem}
 }
 .mockup-bar{background:#111B35;padding:.6rem 1rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid rgba(255,255,255,.05)}
 .mockup-dot{width:10px;height:10px;border-radius:50%}
@@ -301,6 +454,11 @@ html.no-motion .demo-stage{grid-template-columns:minmax(280px,340px) minmax(340p
 .form-group input:focus,.form-group select:focus{border-color:var(--bright)}
 .form-submit{width:100%;padding:.9rem;background:var(--electric);border:none;border-radius:10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:#fff;cursor:pointer;transition:background .2s;margin-top:.5rem}
 .form-submit:hover{background:var(--electric)}
+/* O estado "enviado" foi REMOVIDO: medido 0 requisicoes nao-GET no envio — o
+   formulario tem action="#" e preventDefault(), nao entrega nada a lugar nenhum.
+   O check e a opacidade afirmavam ao visitante um envio que nao aconteceu.
+   Confirmacao de verdade depende de (1) um destino real para o formulario e
+   (2) a copy da mensagem — as duas coisas sao decisao do Jean. */
 .contato-visual{display:flex;flex-direction:column;gap:1.5rem}
 .trust-items{display:flex;flex-direction:column;gap:.75rem}
 .trust-item{display:flex;align-items:center;gap:.75rem;font-size:.9rem;color:var(--text-mid)}
@@ -363,8 +521,8 @@ html.no-motion .demo-stage{grid-template-columns:minmax(280px,340px) minmax(340p
 .metricas-tagline{font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:700;color:rgba(255,255,255,.9);margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,.15)}
 .metricas-tagline span{color:#fff}
 /* Brazil Map */
-.brazil-map-wrap{position:relative;display:flex;align-items:center;justify-content:center}
-.brazil-map-img{width:100%;max-width:380px;opacity:0;transform:scale(.96);filter:brightness(0) invert(1);transition:none;animation:map-img-in 1.2s cubic-bezier(.4,0,.2,1) forwards;animation-play-state:paused}
+.brazil-map-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:100%;max-width:380px;margin-inline:auto}
+.brazil-map-img{width:100%;height:auto;max-width:380px;opacity:0;transform:scale(.96);filter:brightness(0) invert(1);transition:none;animation:map-img-in 1.2s cubic-bezier(.4,0,.2,1) forwards;animation-play-state:paused}
 .map-city{position:absolute;border-radius:50%;background:#fff;opacity:0;transform:scale(0);animation:city-pop .5s cubic-bezier(.34,1.56,.64,1) forwards;animation-play-state:paused}
 .map-capital{animation:city-pop .5s cubic-bezier(.34,1.56,.64,1) forwards,capital-pulse 3s ease-in-out infinite;animation-delay:0s,1.4s;animation-play-state:paused}
 .map-ripple{position:absolute;border-radius:50%;border:1.5px solid rgba(255,255,255,.6);opacity:0;transform:scale(1);animation:ripple-out 3s ease-out infinite;animation-play-state:paused}
@@ -423,7 +581,7 @@ html.no-motion .demo-stage{grid-template-columns:minmax(280px,340px) minmax(340p
 #diferenciais{background:var(--bg-light)}
 .dif-header{text-align:center;max-width:580px;margin:0 auto 3.5rem}
 .dif-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem;counter-reset:dif}
-.dif-card{flex:0 1 calc(25% - 1rem);min-width:220px;background:#fff;border-radius:18px;padding:1.75rem;text-align:left;border:1.5px solid transparent;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;counter-increment:dif;overflow:hidden}
+.dif-card{flex:0 1 calc(25% - 1rem);min-width:200px;background:#fff;border-radius:18px;padding:1.75rem;text-align:left;border:1.5px solid transparent;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;counter-increment:dif;overflow:hidden}
 .dif-card::before{content:"0" counter(dif);position:absolute;top:1.2rem;right:1.4rem;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:800;color:#6B7FA3;opacity:.25;letter-spacing:.04em}
 .dif-card::after{content:'';position:absolute;inset:0;border-radius:18px;background:linear-gradient(135deg,rgba(74,127,255,.04),transparent 60%);pointer-events:none}
 .dif-card:hover{transform:translateY(-5px);box-shadow:0 20px 48px rgba(74,127,255,.13);border-color:rgba(74,127,255,.22)}
@@ -557,17 +715,48 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
 .wa-float svg{width:28px;height:28px;fill:#fff}
 
 /* RESPONSIVE */
+/* O botao flutuante do WhatsApp (56px + 28px de margem) cobre o canto INFERIOR
+   DIREITO. 88px de padding-bottom resolviam a sobreposicao criando 88px de faixa
+   escura vazia em todo notebook. Medida (varredura de 320 a 1680 com a regra
+   desligada): o botao so cobre conteudo de 568 a 1367px, e o que ele cobre e
+   sempre o ULTIMO filho, a direita. Entao reserva-se a faixa a DIREITA — a
+   pagina termina onde o conteudo termina. */
+@media(min-width:481px) and (max-width:1367px){
+  .footer-bottom{padding-right:96px}
+}
 @media(max-width:1024px){
   .dif-card{flex-basis:calc(33.33% - 1rem);min-width:200px}
-  .footer-grid{grid-template-columns:1fr 1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
   .footer-grid .footer-brand{grid-column:1/-1}
 }
-@media(max-width:768px){
+/* Medido de 4 em 4px COM A FONTE WEB CARREGADA e com o breakpoint desligado:
+   a folga entre o logo e o primeiro link e ZERO ate 852px, 1px em 856, 12px em
+   880 e so chega a 16px por volta de 890. O limiar de 855 dava 1px de folga —
+   1px nao e folga: o logo encostava no menu. Daqui o nav completo so aparece de
+   896px para cima, onde a folga medida e 19px. */
+@media(max-width:895px){
   .nav-links,.nav-actions{display:none}
   .nav-hamburger{display:flex}
+  .nav-logo{min-height:44px}
+  /* o painel do menu: nada de markup novo, so se revela o que ja existe */
+  #nav.menu-aberto{background:#fff;box-shadow:0 12px 28px rgba(0,0,0,.14)}
+  #nav.menu-aberto .nav-inner{flex-wrap:wrap;height:auto;max-height:100vh;max-height:100dvh;overflow-y:auto}
+  #nav.menu-aberto .nav-logo,#nav.menu-aberto .nav-hamburger{min-height:68px}
+  #nav.menu-aberto .nav-logo-text{color:var(--text-dark)}
+  #nav.menu-aberto .nav-hamburger span{background:var(--text-dark)}
+  #nav.menu-aberto .nav-links,
+  #nav.menu-aberto .nav-actions{display:flex;flex-direction:column;align-items:stretch;width:100%;gap:0}
+  /* o hamburger fica na 1a linha, ao lado do logo (senao o wrap o joga para o fim) */
+  #nav.menu-aberto .nav-links{order:2;border-top:1px solid var(--border);padding:.25rem 0}
+  #nav.menu-aberto .nav-links a{display:block;padding:.85rem 0;font-size:1rem;color:var(--text-mid)}
+  #nav.menu-aberto .nav-actions{order:3;gap:.6rem;padding:.5rem 0 1.1rem}
+  #nav.menu-aberto .nav-actions a{text-align:center;padding:.85rem 1.2rem}
+  #nav.menu-aberto .btn-ghost{border-color:var(--border);color:var(--text-dark)}
+}
+@media(max-width:768px){
   .hero-inner{grid-template-columns:1fr}
   .hero-mockup{display:none}
-  .contato-inner,.case-inner,.metricas-inner,.ia-inner{grid-template-columns:1fr}
+  .contato-inner,.case-inner,.metricas-inner,.ia-inner{grid-template-columns:1fr;gap:2rem}
   .desafios-grid{grid-template-columns:1fr 1fr}
   .desafio-card,.desafio-card-cta{min-height:200px}
   .func-panel.active{grid-template-columns:1fr}
@@ -575,6 +764,49 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
   .dif-card{flex-basis:calc(50% - 0.7rem);min-width:180px}
   .produtos-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
+  /* o reveal entrava pela lateral: translateX estourava o viewport (scrollW 326 em 320)
+     e alargava o nav fixo. Mesma animacao, eixo vertical: nao ha como vazar na horizontal. */
+  .kpi-item.reveal{transform:translateY(22px)}
+  .ia-screen.reveal{transform:translateY(22px)}
+  .trust-item.reveal{transform:translateY(18px)}
+  /* 14,4px nos campos faz o Safari do iPhone dar zoom sozinho ao focar */
+  .form-group input,.form-group select{font-size:16px}
+  /* alvos de toque abaixo de 44px */
+  .footer-col ul{gap:0}
+  .footer-col ul a{display:block;padding:.85rem 0}
+  .produto-link{padding:.85rem 0;margin-top:.5rem}
+  .func-tab-btn{padding:.9rem 1.4rem}
+  .form-submit{padding:1rem}
+  .btn-primary,.btn-secondary{padding:1rem 1.75rem}
+  .btn-cta-card{padding:.85rem 1.4rem}
+  .footer-bottom a{display:inline-flex;align-items:center;min-height:44px}
+}
+/* De 896px para cima o nav completo aparece (o hamburguer para em 895) e ele e
+   feito para MOUSE: links de 18px de altura, "IA" com 13px de largura, botoes de
+   34-36px. Quem decide aqui e o PONTEIRO, nao o tamanho: num aparelho de toque
+   esses alvos precisam de 44px; num desktop com mouse nada muda. A barra tem 68px
+   de altura, entao os 44px cabem sem mexer no layout, e o gap menor devolve a
+   largura que o min-width do "IA" consome. */
+@media(pointer:coarse){
+  .nav-logo{min-height:44px}
+  .nav-links{gap:1.25rem}
+  .nav-links a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:44px}
+  .nav-actions a{display:inline-flex;align-items:center;min-height:44px}
+}
+/* O bloco de 44px acima e o de 768px: deixava de fora TODO aparelho de toque com
+   mais de 768px de largura — celular deitado (844x390, 896x414) e tablet em pe.
+   Medido: 27 alvos abaixo de 44px la. Quem manda e o PONTEIRO, e o teto de 1023px
+   mantem o ramo de desktop (>=1024) intocado. So regras de DEDO — nenhuma de layout. */
+@media(pointer:coarse) and (max-width:1023px){
+  .form-group input,.form-group select{font-size:16px}
+  .footer-col ul{gap:0}
+  .footer-col ul a{display:block;padding:.85rem 0}
+  .produto-link{padding:.85rem 0;margin-top:.5rem}
+  .func-tab-btn{padding:.9rem 1.4rem}
+  .form-submit{padding:1rem}
+  .btn-primary,.btn-secondary{padding:1rem 1.75rem}
+  .btn-cta-card{padding:.85rem 1.4rem}
+  .footer-bottom a{display:inline-flex;align-items:center;min-height:44px}
 }
 @media(max-width:480px){
   .desafios-grid,.case-metrics{grid-template-columns:1fr}
@@ -582,6 +814,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
   .desafio-card,.desafio-card-cta{min-height:auto}
   .footer-grid{grid-template-columns:1fr}
   .hero-stats{flex-wrap:wrap;gap:1rem}
+  .ia-screens{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -749,7 +982,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
   <div class="section-inner">
     <div class="contato-inner">
       <div class="contato-visual">
-        <img src="assets/images/contact-woman.webp" alt="Profissional utilizando o Clinix System" width="560" height="420" loading="lazy" style="width:100%;height:auto;border-radius:20px;object-fit:cover;display:block">
+        <img src="assets/images/contact-woman.webp" alt="Profissional utilizando o Clinix System" width="1024" height="1024" loading="lazy" style="width:100%;height:auto;border-radius:20px;object-fit:cover;display:block">
         <div class="trust-items">
           <div class="trust-item">
             <div class="trust-icon">
@@ -849,7 +1082,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
         </div>
       </div>
       <div>
-        <img src="assets/images/case-dentist.webp" alt="Dra. Camila Assis — Odontologia Integrada" width="560" height="480" loading="lazy" style="width:100%;height:auto;border-radius:20px;object-fit:cover;display:block">
+        <img src="assets/images/case-dentist.webp" alt="Dra. Camila Assis — Odontologia Integrada" width="1024" height="1024" loading="lazy" style="width:100%;height:auto;border-radius:20px;object-fit:cover;display:block">
       </div>
     </div>
   </div>
@@ -1106,21 +1339,21 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
   <div class="logos-overflow">
     <div class="logos-track">
       <!-- Set original -->
-      <div class="logo-item"><img src="assets/logos/dental-center.webp" alt="Dental Center" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/logos/sorridents.png" alt="Sorridents Clínicas Odontológicas" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/logos/oral-sin.png" alt="Oral Sin Implantes" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/logos/odonto-company.png" alt="Odonto Company" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/logos/odontoclinic.png" alt="Odontoclinic" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/logos/sorrifacil.png" alt="Sorrifácil" loading="lazy"></div>
-      <div class="logo-item"><img src="assets/logos/paraiso-odonto.png" alt="Paraíso Odonto" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/dental-center.webp" width="180" height="180" alt="Dental Center" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/sorridents.png" width="1024" height="211" alt="Sorridents Clínicas Odontológicas" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/oral-sin.png" width="1920" height="631" alt="Oral Sin Implantes" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/odonto-company.png" width="900" height="284" alt="Odonto Company" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/odontoclinic.png" width="693" height="162" alt="Odontoclinic" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/sorrifacil.png" width="799" height="240" alt="Sorrifácil" loading="lazy"></div>
+      <div class="logo-item"><img src="assets/logos/paraiso-odonto.png" width="1080" height="1080" alt="Paraíso Odonto" loading="lazy"></div>
       <!-- Set duplicado para loop infinito -->
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/dental-center.webp" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/sorridents.png" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/oral-sin.png" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/odonto-company.png" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/odontoclinic.png" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/sorrifacil.png" alt="" loading="lazy"></div>
-      <div class="logo-item" aria-hidden="true"><img src="assets/logos/paraiso-odonto.png" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/dental-center.webp" width="180" height="180" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/sorridents.png" width="1024" height="211" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/oral-sin.png" width="1920" height="631" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/odonto-company.png" width="900" height="284" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/odontoclinic.png" width="693" height="162" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/sorrifacil.png" width="799" height="240" alt="" loading="lazy"></div>
+      <div class="logo-item" aria-hidden="true"><img src="assets/logos/paraiso-odonto.png" width="1080" height="1080" alt="" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -1146,7 +1379,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
       <div class="metricas-tagline">Temos a confiança de <span>+20 mil clínicas</span> odontológicas em todo o Brasil</div>
     </div>
     <div class="brazil-map-wrap">
-      <img class="brazil-map-img" src="assets/images/mapa-brasil.png" alt="Mapa do Brasil — Clinix presente em todo o território nacional" width="380" height="420" loading="lazy">
+      <img class="brazil-map-img" src="assets/images/mapa-brasil.png" alt="Mapa do Brasil — Clinix presente em todo o território nacional" width="980" height="980" loading="lazy">
       <!-- Dots posicionados sobre o mapa (% relativo ao wrapper) -->
       <!-- Brasília — capital -->
       <span class="map-ripple"  style="width:20px;height:20px;top:55%;left:56%;" aria-hidden="true"></span>
@@ -1743,6 +1976,29 @@ window.addEventListener('scroll',function(){
   nav.classList.toggle('scrolled',window.scrollY>60);
 },{passive:true});
 
+// Menu do celular. O botao existia desde sempre sem nenhum listener: abaixo de 895px
+// a pagina ficava sem os 4 links e sem os 2 botoes do nav. Sem GSAP de proposito.
+(function(){
+  var hb=document.getElementById('hamburger');
+  if(!hb||!nav) return;
+  function fechar(){
+    nav.classList.remove('menu-aberto');
+    hb.setAttribute('aria-expanded','false');
+    hb.setAttribute('aria-label','Abrir menu');
+  }
+  hb.addEventListener('click',function(){
+    var aberto=nav.classList.toggle('menu-aberto');
+    hb.setAttribute('aria-expanded',String(aberto));
+    hb.setAttribute('aria-label',aberto?'Fechar menu':'Abrir menu');
+  });
+  nav.querySelectorAll('.nav-links a,.nav-actions a').forEach(function(a){
+    a.addEventListener('click',fechar);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&nav.classList.contains('menu-aberto')) fechar();
+  });
+})();
+
 // Funcionalidades tabs
 document.querySelectorAll('.func-tab-btn').forEach(function(btn){
   btn.addEventListener('click',function(){
@@ -1788,13 +2044,29 @@ document.querySelectorAll('.reveal').forEach(function(el){revealObs.observe(el);
 });
 
 // Form UTM + evento de lead
-document.getElementById('lead-form').addEventListener('submit',function(){
-  ['utm_source','utm_medium','utm_campaign','utm_content','fbclid'].forEach(function(k){
-    var el=document.getElementById('h_'+k);
-    if(el)el.value=sessionStorage.getItem(k)||'';
+(function(){
+  var form=document.getElementById('lead-form');
+  if(!form) return;
+  var jaEnviou=false;
+  form.addEventListener('submit',function(e){
+    // action="#" method="POST" fazia o navegador postar de verdade: 405 no GitHub Pages,
+    // 501 em servidor local, e a landing era SUBSTITUIDA pela pagina de erro.
+    // Sem endpoint definido ainda, o minimo correto e nao navegar.
+    e.preventDefault();
+    // Medido: 3 cliques = 3 'generate_lead'. Com o GTM de verdade no lugar do
+    // placeholder, 1 visitante viraria N conversoes. Uma vez e so. Esta e a UNICA
+    // trava que fica: nada de sinal visual de "enviado", nada de botao desativado
+    // (o foco do teclado caia no <body>) e nada de aria-busy permanente (o leitor
+    // de tela anunciava "em atualizacao" para sempre). O envio nao acontece.
+    if(jaEnviou) return;
+    jaEnviou=true;
+    ['utm_source','utm_medium','utm_campaign','utm_content','fbclid'].forEach(function(k){
+      var el=document.getElementById('h_'+k);
+      if(el)el.value=sessionStorage.getItem(k)||'';
+    });
+    window.dataLayer.push({event:'generate_lead',form_id:'lead-form'});
   });
-  window.dataLayer.push({event:'generate_lead',form_id:'lead-form'});
-});
+})();
 
 // Evento de clique no WhatsApp
 document.querySelectorAll('a[href*="wa.me"]').forEach(function(a){
@@ -1897,6 +2169,22 @@ document.addEventListener('DOMContentLoaded', function(){
   gsap.ticker.add(function(t){ lenis.raf(t*1000); });
   gsap.ticker.lagSmoothing(0);
 
+  // Onde a rolagem tem de PARAR. Se a seção é dirigida pela rolagem (scrub), o
+  // ponto certo é o START dela — é o único ponto em que a história ainda não
+  // começou. Vale com pin (que exige 'top top') e SEM pin: no ramo sem pin, parar
+  // pelo offset do nav caía a 65–81% da linha do tempo, com 5 ou 6 das 6 mensagens
+  // já acesas — a história acabava antes de o dedo tocar. Seção comum: nav fixo.
+  function paradaDe(target){
+    var t = (window.ScrollTrigger ? ScrollTrigger.getAll() : []).filter(function(s){
+      // s.scrub NÃO existe na instância (medido: undefined) — o valor fica em
+      // s.vars.scrub, que é o objeto de configuração que nós mesmos passamos.
+      return s.trigger === target && (s.pin || (s.vars && s.vars.scrub));
+    })[0];
+    if(t) return Math.round(t.start);
+    return Math.round(target.getBoundingClientRect().top + window.scrollY - 68);
+  }
+  function irPara(target){ lenis.scrollTo(paradaDe(target)); }
+
   // Âncoras internas via Lenis (mantém offset do nav fixo)
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     var hash = a.getAttribute('href');
@@ -1905,9 +2193,35 @@ document.addEventListener('DOMContentLoaded', function(){
       var target = document.querySelector(hash);
       if(!target) return;
       e.preventDefault();
-      lenis.scrollTo(target, {offset:-68});
+      irPara(target);
     });
   });
+
+  // Carregar a URL já com #ancora: quem decide a parada é o navegador, via
+  // scroll-padding-top, e ele não sabe do pin — para 80px antes do 'top top' e o
+  // visitante encara um palco apagado. Duas medidas mostraram que corrigir UMA vez
+  // perde a corrida: o salto do navegador acontece DEPOIS deste script. Então
+  // insiste-se por meio segundo — e para no primeiro gesto de quem está lendo.
+  var usuarioMexeu = false, vigiandoAte = 0, vigiando = false;
+  ['wheel','touchstart','keydown','pointerdown'].forEach(function(ev){
+    window.addEventListener(ev, function(){ usuarioMexeu = true; }, {passive:true, once:true});
+  });
+  function alinharHash(){
+    if(usuarioMexeu || location.hash.length < 2) return;
+    var alvo;
+    try { alvo = document.querySelector(location.hash); } catch(err){ return; }
+    if(!alvo) return;
+    vigiandoAte = Date.now() + 600;
+    if(vigiando) return;
+    vigiando = true;
+    (function volta(){
+      if(usuarioMexeu || Date.now() > vigiandoAte){ vigiando = false; return; }
+      var y = paradaDe(alvo);
+      if(Math.abs(window.scrollY - y) > 1) lenis.scrollTo(y, {immediate:true});
+      requestAnimationFrame(volta);
+    })();
+  }
+  alinharHash();
 
   // Barra de progresso do nav
   gsap.to('.nav-progress', {
@@ -1978,6 +2292,28 @@ document.addEventListener('DOMContentLoaded', function(){
         .set('.beam-dot', {opacity:0});
     }
 
+    // No celular a lista do chat é recortada: cada balão novo puxa a conversa
+    // para cima, como num WhatsApp de verdade. Valor por função — devolve 0
+    // quando não há recorte (desktop), então o desktop não muda em nada.
+    function rolarAte(sel){
+      return function(){
+        var lista = demo.querySelector('.wa-list'), alvo = demo.querySelector(sel);
+        if(!lista || !alvo) return 0;
+        var max = lista.scrollHeight - lista.clientHeight;
+        if(max <= 0) return 0;
+        return Math.max(0, Math.min(max, alvo.offsetTop + alvo.offsetHeight - lista.clientHeight + 8));
+      };
+    }
+    // Ligado SO no ramo do toque. No desktop rolarAte() devolvia sempre 0, mas os
+    // 6 tweens entravam na linha do tempo assim mesmo e a esticavam (9,37s -> 9,47s,
+    // 21 -> 27 filhos): cada passo da demo passava a entrar ~28px de rolagem depois.
+    // Os dois ramos do matchMedia sao exclusivos, entao a bandeira nunca fica ambigua.
+    var comRolagemDaLista = false;
+    function seguir(tl, sel){
+      if(!comRolagemDaLista) return;
+      tl.to('.wa-list', {scrollTop:rolarAte(sel), duration:.3, ease:'power2.out'}, '<');
+    }
+
     var msgIn = {opacity:1, y:0, scale:1, duration:.35, ease:'back.out(1.4)'};
     var toastIn = {opacity:1, x:0, duration:.4, ease:'power2.out'};
 
@@ -1988,13 +2324,19 @@ document.addEventListener('DOMContentLoaded', function(){
       beamPulse(tl, '+=.1');
       tl.to('[data-step="t1"]', toastIn, '-=.05')
         .to('#crm-card-mariana', {opacity:1, scale:1, duration:.35, ease:'back.out(1.6)'}, '-=.15')
-        .to('[data-step="typing"]', {opacity:1, duration:.2}, '+=.25')
-        .to('[data-step="typing"]', {opacity:0, duration:.12}, '+=.55')
-        .to('[data-step="m2"]', msgIn, '-=.05')
-        .to('[data-step="m3"]', msgIn, '+=.35')
-        .to('[data-step="m4"]', msgIn, '+=.3')
-        .to('[data-step="m5"]', msgIn, '+=.35')
-        .to('[data-step="m6"]', msgIn, '+=.3');
+        .to('[data-step="typing"]', {opacity:1, duration:.2}, '+=.25');
+      seguir(tl, '[data-step="typing"]');
+      tl.to('[data-step="typing"]', {opacity:0, duration:.12}, '+=.55')
+        .to('[data-step="m2"]', msgIn, '-=.05');
+      seguir(tl, '[data-step="m2"]');
+      tl.to('[data-step="m3"]', msgIn, '+=.35');
+      seguir(tl, '[data-step="m3"]');
+      tl.to('[data-step="m4"]', msgIn, '+=.3');
+      seguir(tl, '[data-step="m4"]');
+      tl.to('[data-step="m5"]', msgIn, '+=.35');
+      seguir(tl, '[data-step="m5"]');
+      tl.to('[data-step="m6"]', msgIn, '+=.3');
+      seguir(tl, '[data-step="m6"]');
       beamPulse(tl, '+=.15');
       tl.to('[data-step="t2"]', toastIn, '-=.05')
         .to('#crm-card-mariana', {
@@ -2004,31 +2346,122 @@ document.addEventListener('DOMContentLoaded', function(){
         }, '+=.15');
       beamPulse(tl, '+=.15');
       tl.to('[data-step="t3"]', toastIn, '-=.05')
-        .to('.demo-final', {opacity:1, y:0, duration:.5, ease:'power2.out'}, '+=.3');
+        .to('.demo-final', {autoAlpha:1, y:0, duration:.5, ease:'power2.out'}, '+=.3');
       return tl;
+    }
+
+    // Altura da tela PEQUENA (com a barra do navegador à mostra). svh NÃO muda
+    // quando a barra some/aparece — é por isso que o palco não pula no meio do pin.
+    function telaCurta(){
+      var p = document.createElement('div');
+      p.style.cssText = 'position:absolute;top:0;left:0;width:0;height:100svh;visibility:hidden;pointer-events:none';
+      document.body.appendChild(p);
+      var h = p.offsetHeight;
+      p.parentNode.removeChild(p);
+      return h > 0 ? h : window.innerHeight;
+    }
+
+    // Faz o palco caber numa tela. Mede de verdade: dá uma altura à lista do chat,
+    // remede o palco inteiro e corrige — 3 voltas convergem. Se ainda sobrar pouco,
+    // o kanban sai (.demo-curta) e mede de novo. Devolve true se coube.
+    function ajustarPalco(){
+      var pin = demo.querySelector('.demo-pin'), lista = demo.querySelector('.wa-list');
+      if(!pin || !lista) return false;
+      var teto = telaCurta(), MIN = 84, MAX = 300;
+      function resolver(){
+        var minAntes = pin.style.minHeight;
+        pin.style.minHeight = '0px';
+        var h = MIN;
+        for(var i = 0; i < 3; i++){
+          lista.style.height = h + 'px';
+          h = Math.max(MIN, Math.min(MAX, h + (teto - 20 - pin.offsetHeight)));
+        }
+        lista.style.height = h + 'px';
+        var alturaFinal = pin.offsetHeight;
+        pin.style.minHeight = minAntes;
+        return alturaFinal + 14 <= teto;
+      }
+      demo.classList.remove('demo-curta');
+      demo.classList.remove('demo-curtissima');
+      if(resolver()) return true;
+      demo.classList.add('demo-curta');
+      if(resolver()) return true;
+      // terceiro degrau: 634–660px de tela. O palco compacto ainda media 647px
+      // num teto de 640 e a demo desistia do pin — quem chegava na seção
+      // encontrava o desfecho pronto. Encolhe mais um degrau em vez de desistir.
+      demo.classList.add('demo-curtissima');
+      return resolver();
     }
 
     var mm = gsap.matchMedia();
 
     mm.add('(min-width:1024px)', function(){
+      comRolagemDaLista = false;
       buildTimeline({
         scrollTrigger:{
           trigger:'#demo', start:'top top', end:'+=2600',
-          pin:true, scrub:0.8, anticipatePin:1, invalidateOnRefresh:true
+          pin:true, pinType:'transform', scrub:0.8, anticipatePin:1, invalidateOnRefresh:true
         }
       });
     });
 
-    mm.add('(max-width:1023px)', function(){
-      var tl = buildTimeline({paused:true});
-      ScrollTrigger.create({
-        trigger:'#demo', start:'top 70%', once:true,
-        onEnter:function(){ tl.play(); }
-      });
-      var replay = demo.querySelector('.demo-replay');
-      if(replay) replay.addEventListener('click', function(){ tl.restart(); });
-      return function(){ tl.kill(); };
-    });
+    // No toque a demo passa a ser dirigida pelo DEDO, igual ao desktop:
+    // a seção fica FIXA na tela e a conversa anda conforme a rolagem.
+    // A barra de endereço muda innerHeight; sem isto o ScrollTrigger recalcula
+    // no meio do pin e a tela pula.
+    ScrollTrigger.config({ignoreMobileResize:true});
+
+    function montarToque(podeFixar){
+      return function(){
+        comRolagemDaLista = true;
+        var coube = ajustarPalco();
+        var fixar = podeFixar && coube;
+        buildTimeline({
+          scrollTrigger: fixar
+            ? { trigger:'#demo', start:'top top',
+                end:function(){ return '+=' + Math.round(telaCurta() * 2.2); },
+                pin:true, pinType:'transform', scrub:0.6, anticipatePin:1,
+                invalidateOnRefresh:true, onRefreshInit:ajustarPalco }
+            // não coube na tela (celular deitado, tela minúscula, fonte gigante):
+            // sem pin, mas AINDA no dedo — a rolagem continua sendo o relógio.
+            // 'bottom bottom' no fim (e não 'bottom 20%'): o fim do scrub tem de
+            // cair no instante em que a seção INTEIRA está enquadrada, senão o
+            // desfecho acende depois que o palco já saiu da tela (medido no deitado).
+            // 'top 85%' no começo (e não 'top bottom'): é onde paradaDe estaciona
+            // quem chega por #demo, e ali a seção já aparece — com 'top bottom' o
+            // ponto de progresso 0 ficava com a seção inteira abaixo da dobra.
+            : { trigger:'#demo', start:'top 85%', end:'bottom bottom',
+                scrub:0.6, invalidateOnRefresh:true, onRefreshInit:ajustarPalco }
+        });
+        // o espaçador do pin herda o fundo da seção (nenhuma emenda clara se a
+        // barra do navegador recolher e a tela ficar maior que a seção)
+        var pai = demo.parentNode;
+        if(fixar && pai && pai.classList.contains('pin-spacer')){
+          pai.style.background = getComputedStyle(demo).backgroundColor;
+        }
+        return function(){
+          demo.classList.remove('demo-curta');
+          demo.classList.remove('demo-curtissima');
+          var lista = demo.querySelector('.wa-list');
+          if(lista){ lista.style.height = ''; lista.scrollTop = 0; }
+        };
+      };
+    }
+    // A decisão de fixar sai de MEDIR o palco — e o palco muda de altura quando a
+    // fonte web chega (a folha entra com media="print" e só vira "all" no onload
+    // dela). Medindo em DOMContentLoaded a decisão virava uma CORRIDA: em 360x640
+    // o palco media 620px antes da fonte (cabia, folga +6) e 647px depois (não
+    // cabia, folga −21), e o mesmo arquivo fixava em 16 de 20 cargas. Esperar a
+    // fonte não muda o critério — só o torna determinístico.
+    function montarRamosDeToque(){
+      mm.add('(max-width:1023px) and (min-height:520px)', montarToque(true));
+      // deitado: medido que o palco de 2 colunas CABE em boa parte dos aparelhos
+      // (844x390, 667x375, 896x414). Quem decide é a medida (ajustarPalco), não o
+      // palpite — onde não couber, cai no ramo sem pin acima.
+      mm.add('(max-width:1023px) and (max-height:519px)', montarToque(true));
+      remedir();
+    }
+    quandoAFonteAssentar(montarRamosDeToque);
   })();
 
   // --- CONTADORES: anima números preservando prefixo/sufixo ("+R$10 bi", "3x", "−60%") ---
@@ -2085,13 +2518,21 @@ document.addEventListener('DOMContentLoaded', function(){
     if(!track) return;
     track.style.animation = 'none';
     var tween = gsap.to(track, {xPercent:-50, repeat:-1, ease:'none', duration:28});
+    // a faixa continuava animando com a secao muito acima da tela, gastando 60fps
+    // para compor 3.152px e 14 imagens que ninguem estava vendo
+    var naTela = true;
+    ScrollTrigger.create({
+      trigger:'#logos', start:'top bottom', end:'bottom top',
+      onToggle:function(st){ naTela = st.isActive; if(st.isActive) tween.resume(); else tween.pause(); }
+    });
     track.parentElement.addEventListener('mouseenter', function(){ tween.pause(); });
-    track.parentElement.addEventListener('mouseleave', function(){ tween.resume(); });
+    track.parentElement.addEventListener('mouseleave', function(){ if(naTela) tween.resume(); });
     var ts = 1, target = 1;
     lenis.on('scroll', function(e){
       target = 1 + Math.min(Math.abs(e.velocity || 0) / 6, 1.6);
     });
     gsap.ticker.add(function(){
+      if(!naTela) return;
       target += (1 - target) * 0.04;
       ts += (target - ts) * 0.08;
       if(!tween.paused()) tween.timeScale(ts);
@@ -2099,7 +2540,28 @@ document.addEventListener('DOMContentLoaded', function(){
   })();
 
   window.CLINIX = {lenis:lenis};
-  window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+  // A fonte web chega DEPOIS do load (o <link> das fontes entra com
+  // media="print" onload="this.media='all'") e muda a altura medida do palco.
+  // Sem remedir aqui, o pin do celular fica com a conta feita na fonte de sistema.
+  function remedir(){ ScrollTrigger.refresh(); alinharHash(); }
+  // Espera a fonte web ASSENTAR antes de deixar alguém MEDIR o palco. Até o
+  // onload da folha de fontes (que entra com media="print") as @font-face nem
+  // estão registradas — document.fonts.size é 0 — e qualquer medida sai com a
+  // fonte de sistema, que é 27px mais baixa no palco da demo. Teto de 3s: se a
+  // folha nunca chegar, a fonte de sistema É a fonte final e a medida já vale.
+  function quandoAFonteAssentar(fn){
+    var limite = Date.now() + 3000;
+    (function tenta(){
+      var f = document.fonts;
+      if(!f || (f.size > 0 && f.status === 'loaded') || Date.now() > limite) return fn();
+      setTimeout(tenta, 50);
+    })();
+  }
+  window.addEventListener('load', remedir);
+  if(document.fonts){
+    document.fonts.ready.then(remedir);
+    if(document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', remedir);
+  }
 });
 </script>
 </body>
