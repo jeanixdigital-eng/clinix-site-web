@@ -1114,7 +1114,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
         <div class="desafio-title">Produtividade e organização</div>
         <div class="desafio-text">Sua equipe perde tempo com tarefas manuais e falta de organização na agenda?</div>
         <div class="desafio-illus" aria-hidden="true">
-          <svg viewBox="0 0 220 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="g-barras" viewBox="0 0 220 88" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="dg1" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#4A7FFF"/>
@@ -1163,7 +1163,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
         <div class="desafio-title">Conversão e financeiro sustentável</div>
         <div class="desafio-text">Sua clínica está deixando dinheiro na mesa por falta de controle financeiro?</div>
         <div class="desafio-illus" aria-hidden="true">
-          <svg viewBox="0 0 220 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="g-barras" viewBox="0 0 220 88" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="dg2" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stop-color="#4A7FFF"/>
@@ -1206,7 +1206,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
         <div class="desafio-title">Lucratividade e segurança financeira</div>
         <div class="desafio-text">A gestão financeira da sua clínica é baseada em dados reais ou em opiniões?</div>
         <div class="desafio-illus" aria-hidden="true" style="align-items:center">
-          <svg viewBox="0 0 240 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="g-pontos" viewBox="0 0 240 72" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="dg3p" x1="0" y1="0" x2="1" y2="0">
                 <stop offset="0%" stop-color="#4A7FFF"/>
@@ -1253,7 +1253,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
         <div class="desafio-title">Engajamento com pacientes</div>
         <div class="desafio-text">Seus pacientes somem depois do primeiro atendimento e não retornam?</div>
         <div class="desafio-illus" aria-hidden="true" style="align-items:center;justify-content:center">
-          <svg viewBox="0 0 160 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="g-orbita" viewBox="0 0 160 112" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Outer orbit glow arc -->
             <circle cx="80" cy="58" r="50" stroke="#4A7FFF" stroke-width="1" opacity=".08" stroke-dasharray="6 5"/>
             <!-- Outer orbit -->
@@ -1303,7 +1303,7 @@ footer{background:var(--night);padding:64px 5% 32px;color:rgba(255,255,255,.6)}
         <div class="desafio-title">Controle e gestão operacional</div>
         <div class="desafio-text">Você sente que não tem controle do que acontece na clínica no dia a dia?</div>
         <div class="desafio-illus" aria-hidden="true" style="align-items:center">
-          <svg viewBox="0 0 220 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="g-painel" viewBox="0 0 220 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <!-- Shadow -->
             <rect x="16" y="16" width="186" height="80" rx="12" fill="#C5D0E8" opacity=".3"/>
             <!-- Card body -->
@@ -2504,16 +2504,67 @@ document.addEventListener('DOMContentLoaded', function(){
     });
   })();
 
-  // --- GRÁFICOS SVG dos desafios: barras crescem de baixo ---
-  document.querySelectorAll('.desafio-illus svg').forEach(function(svg){
-    var bars = svg.querySelectorAll('rect');
-    if(!bars.length) return;
-    gsap.set(bars, {transformBox:'fill-box', transformOrigin:'50% 100%', scaleY:0});
-    gsap.to(bars, {
-      scaleY:1, duration:.7, stagger:.06, ease:'power3.out',
-      scrollTrigger:{trigger:svg, start:'top 88%', once:true}
-    });
-  });
+  // --- GRÁFICOS SVG dos desafios: motion graphics ---
+  // As barras crescem do pe, a linha de tendencia se DESENHA e os pontos
+  // estouram. Um motor so (GSAP) — ⛔ NAO acrescentar transform por CSS nestes
+  // elementos: o GSAP le o transform que existe, guarda como estado inicial e
+  // escreve inline. Ja aconteceu: um scaleX(0) de CSS ficou preso no inline e
+  // as barras do painel sumiram (largura 0) mesmo com a animacao rodando.
+  // 🔑 Quem dispara e o IntersectionObserver, nao o ScrollTrigger: o gatilho
+  // do ScrollTrigger nasce fora de posicao para tudo que vem DEPOIS do pin da
+  // demo (medido: 2723px), e ai a animacao dispara antes de a pessoa chegar.
+  (function(){
+    function anima(svg){
+      var tl = gsap.timeline();
+      var classe = svg.getAttribute('class') || '';
+      var rects = Array.prototype.slice.call(svg.querySelectorAll('rect'));
+
+      if(classe.indexOf('g-painel') > -1){
+        // painel: as barras de progresso ENCHEM da esquerda; a moldura so aparece
+        var molde = rects.slice(0, 7);
+        var fill  = [rects[7], rects[9], rects[11]].filter(Boolean);
+        gsap.set(molde, {transformBox:'fill-box', transformOrigin:'50% 100%', scaleY:0});
+        gsap.set(fill,  {transformBox:'fill-box', transformOrigin:'0% 50%',  scaleX:0});
+        tl.to(molde, {scaleY:1, duration:.5, stagger:.045, ease:'power3.out'})
+          .to(fill,  {scaleX:1, duration:.9, stagger:.14, ease:'power2.out'}, '-=.15');
+      } else if(rects.length){
+        // barras verticais: crescem do pe, da esquerda para a direita
+        gsap.set(rects, {transformBox:'fill-box', transformOrigin:'50% 100%', scaleY:0});
+        tl.to(rects, {scaleY:1, duration:.85, stagger:.09, ease:'power3.out'});
+      }
+
+      // area sob a tendencia
+      var area = svg.querySelectorAll('polygon');
+      if(area.length){ gsap.set(area,{opacity:0}); tl.to(area,{opacity:1,duration:.5,ease:'power1.out'},'-=.35'); }
+
+      // linha de tendencia: se desenha
+      var linhas = svg.querySelectorAll('polyline');
+      Array.prototype.forEach.call(linhas, function(l){
+        var c = l.getTotalLength ? l.getTotalLength() : 240;
+        gsap.set(l, {strokeDasharray:c, strokeDashoffset:c});
+        tl.to(l, {strokeDashoffset:0, duration:.9, ease:'power2.inOut'}, '-=.45');
+      });
+
+      // pontos: estouram no fim
+      var pontos = svg.querySelectorAll('circle');
+      if(pontos.length){
+        gsap.set(pontos, {transformBox:'fill-box', transformOrigin:'50% 50%', scale:0});
+        tl.to(pontos, {scale:1, duration:.45, stagger:.05, ease:'back.out(2)'}, '-=.5');
+      }
+      return tl;
+    }
+
+    var svgs = document.querySelectorAll('.desafio-illus svg');
+    if(!window.IntersectionObserver){ return; }   // sem IO: nada e escondido
+    var obs = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if(!e.isIntersecting) return;
+        obs.unobserve(e.target);
+        anima(e.target);
+      });
+    }, {threshold:.25});
+    Array.prototype.forEach.call(svgs, function(s){ obs.observe(s); });
+  })();
 
   // --- PARALLAX sutil nas fotos (case e contato) ---
   document.querySelectorAll('#case img[src*="case-dentist"], #contato img[src*="contact-woman"]').forEach(function(img){
