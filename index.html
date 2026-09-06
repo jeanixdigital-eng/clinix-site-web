@@ -568,6 +568,38 @@ html.no-motion .crm-kanban{display:grid}
 .func-tabs-nav{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:3rem;border-bottom:2px solid var(--border)}
 .func-tab-btn{padding:.7rem 1.4rem;border:none;background:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;font-weight:600;color:var(--text-muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .2s,border-color .2s}
 .func-tab-btn.active{color:var(--electric);border-bottom-color:var(--bright)}
+
+/* === ABAS DE FUNCIONALIDADES: grade previsivel fora do desktop ===
+   Como barra de abas numa linha so, elas quebravam de um jeito diferente em
+   cada largura — MEDIDO: 4 linhas em 320/360/390, "1+1+2" em 414 (as duas
+   ultimas dividindo a linha) e "3+1" em 768, com uma orfa embaixo. Isso e o
+   que da a impressao de desorganizado.
+   Fora do desktop elas viram GRADE: celulas de largura igual, alinhadas, todas
+   com a mesma altura. A aba ativa deixa de ser um sublinhado (que so faz
+   sentido numa fileira) e passa a ser um cartao preenchido. */
+@media(max-width:1023px){
+  .func-tabs-nav{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-auto-rows:1fr;   /* as 4 celulas com a MESMA altura, mesmo que um rotulo
+                             quebre em 2 linhas e o outro nao */
+    gap:.6rem;border-bottom:none;margin-bottom:2.2rem
+  }
+  .func-tab-btn{
+    display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:.85rem .7rem;min-height:52px;line-height:1.25;
+    background:var(--white);border:1px solid var(--border);border-radius:12px;
+    border-bottom:1px solid var(--border);margin-bottom:0;
+    transition:background .2s,border-color .2s,color .2s
+  }
+  .func-tab-btn.active{
+    background:rgba(74,127,255,.1);border-color:var(--bright);
+    color:var(--electric);border-bottom-color:var(--bright)
+  }
+}
+/* tablet: as quatro cabem numa fileira so, sem orfa */
+@media(min-width:768px) and (max-width:1023px){
+  .func-tabs-nav{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
 .func-panel{display:none}
 .func-panel.active{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
 .func-subtabs{display:flex;flex-direction:column;gap:.75rem}
